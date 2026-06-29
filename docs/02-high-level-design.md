@@ -9,33 +9,27 @@
 <a href="#enterprise-design-principles"><img src="https://img.shields.io/badge/PRINCIPLES-16A085?style=for-the-badge"></a>
 <a href="#enterprise-network-architecture"><img src="https://img.shields.io/badge/ARCHITECTURE-8E44AD?style=for-the-badge"></a>
 <a href="#site-design"><img src="https://img.shields.io/badge/SITE%20DESIGN-9B59B6?style=for-the-badge"></a>
-
-</p>
-
-<p align="left">
-
 <a href="#logical-topology"><img src="https://img.shields.io/badge/TOPOLOGY-2980B9?style=for-the-badge"></a>
 <a href="#network-zones"><img src="https://img.shields.io/badge/NETWORK%20ZONES-3498DB?style=for-the-badge"></a>
 <a href="#vlan-architecture"><img src="https://img.shields.io/badge/VLAN-2ECC71?style=for-the-badge"></a>
 <a href="#routing-design"><img src="https://img.shields.io/badge/ROUTING-E67E22?style=for-the-badge"></a>
-<a href="#high-availability-design"><img src="https://img.shields.io/badge/HIGH%20AVAILABILITY-C0392B?style=for-the-badge"></a>
 
 </p>
 
 <p align="left">
-
+<a href="#high-availability-design"><img src="https://img.shields.io/badge/HIGH%20AVAILABILITY-C0392B?style=for-the-badge"></a>
 <a href="#security-design"><img src="https://img.shields.io/badge/SECURITY-D35400?style=for-the-badge"></a>
 <a href="#inter-vlan-access-policy"><img src="https://img.shields.io/badge/ACL%20POLICY-E74C3C?style=for-the-badge"></a>
 <a href="#server--infrastructure-services-design"><img src="https://img.shields.io/badge/SERVICES-1ABC9C?style=for-the-badge"></a>
 <a href="#monitoring--management-design"><img src="https://img.shields.io/badge/MONITORING-34495E?style=for-the-badge"></a>
 <a href="#automation-design"><img src="https://img.shields.io/badge/AUTOMATION-7F8C8D?style=for-the-badge"></a>
-
+<a href="#design-assumptions"><img src="https://img.shields.io/badge/ASSUMPTIONS-95A5A6?style=for-the-badge"></a>
+<a href="#design-constraints"><img src="https://img.shields.io/badge/CONSTRAINTS-8E44AD?style=for-the-badge"></a>
+  
 </p>
 
 <p align="left">
 
-<a href="#design-assumptions"><img src="https://img.shields.io/badge/ASSUMPTIONS-95A5A6?style=for-the-badge"></a>
-<a href="#design-constraints"><img src="https://img.shields.io/badge/CONSTRAINTS-8E44AD?style=for-the-badge"></a>
 <a href="#summary"><img src="https://img.shields.io/badge/SUMMARY-2C3E50?style=for-the-badge"></a>
 <a href="#glossary"><img src="https://img.shields.io/badge/GLOSSARY-16A085?style=for-the-badge"></a>
 <a href="#references"><img src="https://img.shields.io/badge/REFERENCES-27AE60?style=for-the-badge"></a>
