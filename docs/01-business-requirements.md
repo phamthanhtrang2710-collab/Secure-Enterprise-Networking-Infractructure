@@ -4,9 +4,6 @@
 |------|---------|
 | Project | Secure Enterprise Network Infrastructure |
 | Company | Verra Technology Inc. |
-| Document Version | 1.0 |
-| Author | Thi Thanh Trang Pham |
-| Date | July 2026 |
 | Status | Draft |
 
 ## Document Revision History
@@ -47,6 +44,12 @@
 <a href="#success-criteria"><img src="https://img.shields.io/badge/SUCCESS%20CRITERIA-27AE60?style=for-the-badge"></a>
 </p>
 
+<p align="left">
+<a href="#project-deliverables"><img src="https://img.shields.io/badge/PROJECT%20DELIVERABLES-34495E?style=for-the-badge"></a>
+<a href="#glossary"><img src="https://img.shields.io/badge/GLOSSARY-2C3E50?style=for-the-badge"></a>
+<a href="#references"><img src="https://img.shields.io/badge/REFERENCES-7F8C8D?style=for-the-badge"></a>
+</p>
+
 ## Overview
 This Business Requirements Document (BRD) defines the business objectives, technical requirements, project scope, security expectations, constraints, risks, and success criteria for the design and implementation of a Secure Enterprise Network Infrastructure for Verra Technology Inc.
 
@@ -71,7 +74,7 @@ The proposed solution aims to provide a secure, scalable, highly available, and 
 
 <td valign="top" width="50%">
 
-### Company Department
+### Company Departments
 
 | Department | Description |
 |------|--------|
@@ -178,8 +181,6 @@ The proposed solution aims to provide a secure, scalable, highly available, and 
 
 ## Functional Requirements
 
-## Functional Requirements
-
 | ID | Requirement | Priority |
 |:---:|:------------|:--------:|
 | **FR-001** | Automatically assign IP addresses using DHCP. | ![](https://img.shields.io/badge/High-red?style=flat-square) |
@@ -212,7 +213,7 @@ The proposed solution aims to provide a secure, scalable, highly available, and 
 
 ## Security Baseline
 
-Identify the minimum security controls necessary to protect enterprise network infrastructure through secure authentication, access control, device enhancement, management security, and centralized logging.
+Identify the minimum security controls necessary to protect enterprise network infrastructure through secure authentication, access control, device hardening, management security, and centralized logging.
 
 | ID | Category | Security Control | Priority |
 |:---:|:---------|:-----------------|:--------:|
@@ -300,11 +301,11 @@ Identify the minimum security controls necessary to protect enterprise network i
 
 The project will be considered successfully completed when:
 
-- [x] All functional requirements are implemented.
-- [x] All verification test cases pass successfully.
-- [x] No critical issues remain unresolved.
-- [x] Network monitoring is fully operational.
-- [x] Technical documentation is complete and up to date.
+- [ ] All functional requirements are implemented.
+- [ ] All verification test cases pass successfully.
+- [ ] No critical issues remain unresolved.
+- [ ] Network monitoring is fully operational.
+- [ ] Technical documentation is complete and up to date.
 
 ## Project Deliverables
 
