@@ -1,4 +1,4 @@
-# High Level Design Document
+# High-Level Design Document
 
 ## <a id="contents"></a>Contents
 
@@ -114,7 +114,7 @@ Verra Technology Inc. operates across multiple simulated locations connected thr
 
 ## Logical Topology
 
-<img width="1536" height="1024" alt="logical-topolofy" src="https://github.com/user-attachments/assets/5c012bff-5abd-42ef-8c0d-532854caa126" />
+<img width="1536" height="1024" alt="logical-topology" src="https://github.com/user-attachments/assets/5c012bff-5abd-42ef-8c0d-532854caa126" />
 
 <p align="right">
 <a href="#contents">⬆ Back to Contents</a>
@@ -496,14 +496,14 @@ The subsequent **Low-Level Design (LLD)** document will translate this architect
 
 ## References
 
-* Cisco Enterprise Campus Design Guide
-* Cisco Validated Designs
-* RFC 2328 - OSPF Version 2
-* RFC 4271 - Border Gateway Protocol 4
-* RFC 2281 – Hot Standby Router Protocol (HSRP)
-* RFC 1918 – Address Allocation for Private Internets
-* Microsoft Windows Server Security Baseline
-* NIST SP 800-41 - Guidelines on Firewalls and Firewall Policy
+- Cisco Enterprise Campus Design Guide
+- Cisco Validated Designs
+- RFC 2328 - OSPF Version 2
+- RFC 4271 - Border Gateway Protocol 4
+- RFC 2281 – Hot Standby Router Protocol (HSRP)
+- RFC 1918 – Address Allocation for Private Internets
+- Microsoft Windows Server Security Baseline
+- NIST SP 800-41 - Guidelines on Firewalls and Firewall Policy
 
 <p align="right">
 <a href="#contents">⬆ Back to Contents</a>
