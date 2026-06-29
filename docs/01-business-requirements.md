@@ -9,6 +9,21 @@
 | Date | July 2026 |
 | Status | Draft |
 
+<p align="center">
+  <a href="#overview"><img src="https://img.shields.io/badge/OVERVIEW-0B8FD3?style=for-the-badge"></a>
+  <a href="#business-background"><img src="https://img.shields.io/badge/BUSINESS%20BACKGROUND-5FAF00?style=for-the-badge"></a>
+  <a href="#business-challenges"><img src="https://img.shields.io/badge/CHALLENGES-EA4B4B?style=for-the-badge"></a>
+  <a href="#project-objectives"><img src="https://img.shields.io/badge/OBJECTIVES-F2762E?style=for-the-badge"></a>
+  <a href="#project-scope"><img src="https://img.shields.io/badge/SCOPE-8A0FAE?style=for-the-badge"></a>
+</p>
+
+<p align="center">
+  <a href="#stakeholders"><img src="https://img.shields.io/badge/STAKEHOLDERS-8A2BE2?style=for-the-badge"></a>
+  <a href="#functional-requirements"><img src="https://img.shields.io/badge/FUNCTIONAL%20REQUIREMENTS-22B800?style=for-the-badge"></a>
+  <a href="#non-functional-requirements"><img src="https://img.shields.io/badge/NON--FUNCTIONAL-A6A6A6?style=for-the-badge"></a>
+  <a href="#security-requirements"><img src="https://img.shields.io/badge/SECURITY-F26B2D?style=for-the-badge"></a>
+</p>
+
 ## Overview
 Verra Technology Inc. is a growing technology company with approximately 250 employees working in various departments. Their current network infrastructure lacks partitioning, redundancy, centralized management, and monitoring capabilities.
 
