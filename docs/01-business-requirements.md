@@ -76,29 +76,38 @@ This project proposes the design and implementation of a secure, scalable, and h
 
 ## Project Scope
 
+<table>
+<tr>
+<td width="60%" valign="top">
+
 ### In Scope
 
-- [x] VLAN Segmentation
-- [x] OSPF Routing
-- [x] BGP Edge Connectivity
-- [x] HSRP Gateway Redundancy
-- [x] Access Control Lists (ACL)
-- [x] NAT
-- [x] DHCP
-- [x] DNS
-- [x] Secure SSH Management
-- [x] Network Monitoring
-- [x] Configuration Backup Automation
+- [x] VLAN Segmentation  
+- [x] OSPF Routing  
+- [x] BGP Edge Connectivity  
+- [x] HSRP Gateway Redundancy  
+- [x] Access Control Lists (ACL)  
+- [x] NAT  
+- [x] DHCP  
+- [x] DNS  
+- [x] Secure SSH Management  
+- [x] Network Monitoring  
+- [x] Configuration Backup Automation  
 
----
+</td>
+<td width="60%" valign="top">
 
 ### Out of Scope
 
-- [ ] IPv6 Deployment
-- [ ] MPLS
-- [ ] SD-WAN
-- [ ] Wireless Controller
-- [ ] Cloud Infrastructure
+- [ ] IPv6 Deployment  
+- [ ] MPLS  
+- [ ] SD-WAN  
+- [ ] Wireless Controller  
+- [ ] Cloud Infrastructure  
+
+</td>
+</tr>
+</table>
 
 ## Stakeholders
 
