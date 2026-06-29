@@ -3,12 +3,28 @@
 | Item | Details |
 |------|---------|
 | Project | Secure Enterprise Network Infrastructure |
-| Company | NorthWind Technology Inc. |
+| Company | Verra Technology Inc. |
 | Document Version | 1.0 |
 | Author | Thi Thanh Trang Pham |
 | Date | July 2026 |
 | Status | Draft |
 
+## Document Revision History
+
+| Version | Date | Author | Description |
+|----------|------|--------|-------------|
+| 1.0 | July 2026 | Thi Thanh Trang Pham | Initial release |
+
+## Document Approval
+
+| Role | Name | Status |
+|------|------|--------|
+| Project Sponsor | CEO | Pending |
+| Network Architect | Thi Thanh Trang Pham | Approved |
+| Technical Reviewer | Pending | Pending |
+
+
+## Contents
 <p align="left">
 
 <a href="#overview"><img src="https://img.shields.io/badge/OVERVIEW-0B8FD3?style=for-the-badge"></a>
@@ -24,7 +40,7 @@
 <p align="left">
 
 <a href="#non-functional-requirements"><img src="https://img.shields.io/badge/NON--FUNCTIONAL%20REQUIREMENTS-95A5A6?style=for-the-badge"></a>
-<a href="#security-requirements"><img src="https://img.shields.io/badge/SECURITY%20REQUIREMENTS-E67E22?style=for-the-badge"></a>
+<a href="#security-baseline"><img src="https://img.shields.io/badge/SECURITY%20BASELINE-E67E22?style=for-the-badge"></a>
 <a href="#assumptions"><img src="https://img.shields.io/badge/ASSUMPTIONS-16A085?style=for-the-badge"></a>
 <a href="#constraints"><img src="https://img.shields.io/badge/CONSTRAINTS-C0392B?style=for-the-badge"></a>
 <a href="#risks"><img src="https://img.shields.io/badge/RISKS-D35400?style=for-the-badge"></a>
@@ -32,9 +48,9 @@
 </p>
 
 ## Overview
-Verra Technology Inc. is a growing technology company with approximately 250 employees working in various departments. Their current network infrastructure lacks partitioning, redundancy, centralized management, and monitoring capabilities.
+This Business Requirements Document (BRD) defines the business objectives, technical requirements, project scope, security expectations, constraints, risks, and success criteria for the design and implementation of a Secure Enterprise Network Infrastructure for Verra Technology Inc.
 
-This project proposes the design and implementation of a secure, scalable, and highly available enterprise network to support current operations and future business growth.
+The proposed solution aims to provide a secure, scalable, highly available, and easily manageable enterprise network that supports current business operations while meeting the organization's future growth needs.
 
 ## Business Background
 <table>
@@ -71,65 +87,82 @@ This project proposes the design and implementation of a secure, scalable, and h
 </tr>
 </table>
 
+### Business Drivers
+
+| Driver | Description |
+|---------|-------------|
+| Business Growth | Support future expansion without major network redesign. |
+| Security | Protect sensitive business data through network segmentation and access control. |
+| High Availability | Minimize service interruption and eliminate single points of failure. |
+| Operational Efficiency | Simplify network administration through centralized management and automation. |
+| Monitoring | Improve visibility into network health and accelerate incident response. |
+
 ## Current Business Challenges
 
-| ID | Current Problem | Business Impact |
-|:--:|-----------------|-----------------|
-| **BC-001** | Flat Network Architecture | Excessive broadcast traffic and reduced network performance |
-| **BC-002** | No VLAN Segmentation | Increased security risks and unrestricted lateral movement |
-| **BC-003** | No Redundant Gateway | Single Point of Failure (SPOF) affecting network availability |
-| **BC-004** | No Centralized Monitoring | Slow fault detection and difficult troubleshooting |
-| **BC-005** | No Configuration Backup | Long recovery time after device failure or misconfiguration 
+| ID | Current Problem | Business Impact | Priority |
+|----|-----------------|-----------------|----------|
+| BC-001 | Flat Network Architecture | Excessive broadcast traffic | ![](https://img.shields.io/badge/Critical-darkred?style=flat-square) |
+| BC-002 | No VLAN Segmentation | Increased security risks | ![](https://img.shields.io/badge/High-red?style=flat-square) |
+| BC-003 | No Redundant Gateway | Single Point of Failure | ![](https://img.shields.io/badge/Critical-darkred?style=flat-square) |
+| BC-004 | No Centralized Monitoring | Slow fault detection | ![](https://img.shields.io/badge/Medium-yellow?style=flat-square&logoColor=black) |
+| BC-005 | No Configuration Backup | Long recovery time | ![](https://img.shields.io/badge/High-red?style=flat-square) |
 
 ## Project Objectives
 
-| ID | Objective |
-|:---:|:----------|
-| **OBJ-001** | Design a scalable enterprise network architecture. |
-| **OBJ-002** | Segment business departments using VLANs. |
-| **OBJ-003** | Implement dynamic routing with OSPF and BGP. |
-| **OBJ-004** | Provide gateway redundancy using HSRP. |
-| **OBJ-005** | Secure inter-VLAN traffic with ACLs. |
-| **OBJ-006** | Deploy centralized network services (DHCP, DNS, Syslog, SNMP). |
-| **OBJ-007** | Monitor network health using LibreNMS or Zabbix. |
-| **OBJ-008** | Automate configuration backup with Python or Ansible. |
-| **OBJ-009** | Validate the infrastructure through comprehensive testing. |
-| **OBJ-010** | Produce enterprise-grade technical documentation. |
+| Business Objectives | Technical Objectives |
+| :--- | :--- |
+| • Improve business continuity. | • Implement VLAN segmentation. |
+| • Reduce operational risks. | • Deploy OSPF dynamic routing. |
+| • Enhance network security. | • Configure BGP edge connectivity. |
+| • Support future expansion. | • Implement HSRP gateway redundancy. |
+| • Increase infrastructure availability. | • Deploy centralized monitoring. |
+| | • Automate configuration backups. |
 
 ## Project Scope
 
 <table>
 <tr>
-<td width="60%" valign="top">
+<td width="55%" valign="top">
 
 ### In Scope
 
-- [x] VLAN Segmentation  
-- [x] OSPF Routing  
-- [x] BGP Edge Connectivity  
-- [x] HSRP Gateway Redundancy  
-- [x] Access Control Lists (ACL)  
-- [x] NAT  
-- [x] DHCP  
-- [x] DNS  
-- [x] Secure SSH Management  
-- [x] Network Monitoring  
-- [x] Configuration Backup Automation  
+- [x] VLAN Segmentation
+- [x] OSPF Routing
+- [x] BGP Edge Connectivity
+- [x] HSRP Gateway Redundancy
+- [x] Access Control Lists (ACL)
+- [x] NAT
+- [x] DHCP
+- [x] DNS
+- [x] Secure SSH Management
+- [x] Network Monitoring
+- [x] Configuration Backup Automation
 
 </td>
-<td width="60%" valign="top">
+
+<td width="45%" valign="top">
 
 ### Out of Scope
 
-- [ ] IPv6 Deployment  
-- [ ] MPLS  
-- [ ] SD-WAN  
-- [ ] Wireless Controller  
-- [ ] Cloud Infrastructure  
+- [ ] IPv6 Deployment
+- [ ] MPLS
+- [ ] SD-WAN
+- [ ] Wireless Controller
+- [ ] Cloud Infrastructure
 
 </td>
 </tr>
 </table>
+
+### Future Scope
+
+| Feature | Status |
+|---------|--------|
+| IPv6 Deployment | 🔜 Planned |
+| MPLS Integration | 🔜 Planned |
+| SD-WAN | 🔜 Planned |
+| AWS / Azure Connectivity | 🔜 Planned |
+| Wireless Controller | 🔜 Planned |
 
 ## Stakeholders
 
@@ -145,20 +178,22 @@ This project proposes the design and implementation of a secure, scalable, and h
 
 ## Functional Requirements
 
-| ID | Requirement |
-|:---:|:------------|
-| **FR-001** | Automatically assign IP addresses using DHCP. |
-| **FR-002** | Provide secure Internet connectivity for all departments. |
-| **FR-003** | Implement dynamic routing using OSPF. |
-| **FR-004** | Establish WAN connectivity through BGP. |
-| **FR-005** | Provide gateway redundancy using HSRP. |
-| **FR-006** | Control inter-VLAN traffic using Access Control Lists (ACLs). |
-| **FR-007** | Provide internal DNS name resolution. |
-| **FR-008** | Synchronize network devices using NTP. |
-| **FR-009** | Collect logs through a centralized Syslog server. |
-| **FR-010** | Monitor network devices using SNMP and LibreNMS. |
-| **FR-011** | Enable secure remote management via SSH. |
-| **FR-012** | Automatically back up device configurations using Python automation. |
+## Functional Requirements
+
+| ID | Requirement | Priority |
+|:---:|:------------|:--------:|
+| **FR-001** | Automatically assign IP addresses using DHCP. | ![](https://img.shields.io/badge/High-red?style=flat-square) |
+| **FR-002** | Provide secure Internet connectivity for all departments. | ![](https://img.shields.io/badge/Critical-darkred?style=flat-square) |
+| **FR-003** | Implement dynamic routing using OSPF. | ![](https://img.shields.io/badge/Critical-darkred?style=flat-square) |
+| **FR-004** | Establish WAN connectivity through BGP. | ![](https://img.shields.io/badge/Critical-darkred?style=flat-square) |
+| **FR-005** | Provide gateway redundancy using HSRP. | ![](https://img.shields.io/badge/Critical-darkred?style=flat-square) |
+| **FR-006** | Control inter-VLAN traffic using Access Control Lists (ACLs). | ![](https://img.shields.io/badge/Critical-darkred?style=flat-square) |
+| **FR-007** | Provide internal DNS name resolution. | ![](https://img.shields.io/badge/High-red?style=flat-square) |
+| **FR-008** | Synchronize network devices using NTP. | ![](https://img.shields.io/badge/Medium-yellow?style=flat-square&logoColor=black) |
+| **FR-009** | Collect logs through a centralized Syslog server. | ![](https://img.shields.io/badge/Medium-yellow?style=flat-square&logoColor=black) |
+| **FR-010** | Monitor network devices using SNMP and LibreNMS. | ![](https://img.shields.io/badge/Medium-yellow?style=flat-square&logoColor=black) |
+| **FR-011** | Enable secure remote management via SSH. | ![](https://img.shields.io/badge/High-red?style=flat-square) |
+| **FR-012** | Automatically back up device configurations using Python automation. | ![](https://img.shields.io/badge/High-red?style=flat-square) |
 
 ## Non-Functional Requirements
 
@@ -175,20 +210,27 @@ This project proposes the design and implementation of a secure, scalable, and h
 | **NFR-009** | Support rapid troubleshooting and disaster recovery. |
 | **NFR-010** | Follow enterprise networking best practices throughout the implementation. |
 
-## Security Requirements
+## Security Baseline
 
-| ID | Requirement |
-|:---:|:------------|
-| **SEC-001** | Disable Telnet and allow SSH only for remote administration. |
-| **SEC-002** | Configure SSH Version 2 with encrypted management access. |
-| **SEC-003** | Implement Access Control Lists (ACLs) to restrict unauthorized traffic. |
-| **SEC-004** | Apply the Principle of Least Privilege to all user accounts. |
-| **SEC-005** | Protect device passwords using strong encryption. |
-| **SEC-006** | Secure routing protocols with authentication where applicable. |
-| **SEC-007** | Disable unused switch ports and services. |
-| **SEC-008** | Configure Port Security on access switches. |
-| **SEC-009** | Restrict management access to authorized administrator VLANs only. |
-| **SEC-010** | Log security events to a centralized Syslog server for auditing. |
+Identify the minimum security controls necessary to protect enterprise network infrastructure through secure authentication, access control, device enhancement, management security, and centralized logging.
+
+| ID | Category | Security Control | Priority |
+|:---:|:---------|:-----------------|:--------:|
+| **Authentication** | | | |
+| **SEC-001** | Authentication | Disable Telnet and allow SSH only for remote administration. | ![](https://img.shields.io/badge/Critical-darkred?style=flat-square) |
+| **SEC-002** | Authentication | Configure SSH Version 2 with encrypted management access. | ![](https://img.shields.io/badge/High-red?style=flat-square) |
+| **Access Control** | | | |
+| **SEC-003** | Access Control | Implement Access Control Lists (ACLs) to restrict unauthorized traffic. | ![](https://img.shields.io/badge/Critical-darkred?style=flat-square) |
+| **SEC-004** | Access Control | Apply the Principle of Least Privilege to all user accounts. | ![](https://img.shields.io/badge/Critical-darkred?style=flat-square) |
+| **Device Hardening** | | | |
+| **SEC-005** | Device Hardening | Protect device passwords using strong encryption. | ![](https://img.shields.io/badge/High-red?style=flat-square) |
+| **SEC-006** | Device Hardening | Secure routing protocols with authentication where applicable. | ![](https://img.shields.io/badge/High-red?style=flat-square) |
+| **SEC-007** | Device Hardening | Disable unused switch ports and services. | ![](https://img.shields.io/badge/Medium-yellow?style=flat-square&logoColor=black) |
+| **SEC-008** | Device Hardening | Configure Port Security on access switches. | ![](https://img.shields.io/badge/High-red?style=flat-square) |
+| **Management Security** | | | |
+| **SEC-009** | Management Security | Restrict management access to authorized administrator VLANs only. | ![](https://img.shields.io/badge/Critical-darkred?style=flat-square) |
+| **Logging & Auditing** | | | |
+| **SEC-010** | Logging & Auditing | Log security events to a centralized Syslog server for auditing. | ![](https://img.shields.io/badge/Medium-yellow?style=flat-square&logoColor=black) |
 
 ## Assumptions
 
@@ -218,6 +260,14 @@ This project proposes the design and implementation of a secure, scalable, and h
 | **CON-007** | Maintenance Window | Configuration changes must be performed during scheduled maintenance periods. |
 | **CON-008** | Compatibility | The design must remain compatible with existing business services. |
 
+### Project Dependencies
+
+- Cisco IOS images
+- Windows Server 2022
+- Ubuntu Server 24.04 LTS
+- LibreNMS / Zabbix
+- Python 3.x
+
 ## Risks
 
 | ID | Risk | Mitigation |
@@ -246,19 +296,54 @@ This project proposes the design and implementation of a secure, scalable, and h
 | **SC-009** | Automated configuration backups execute successfully. | ☐ |
 | **SC-010** | All verification tests pass successfully. | ☐ |
 
+### Project Acceptance Criteria
+
+The project will be considered successfully completed when:
+
+- [x] All functional requirements are implemented.
+- [x] All verification test cases pass successfully.
+- [x] No critical issues remain unresolved.
+- [x] Network monitoring is fully operational.
+- [x] Technical documentation is complete and up to date.
+
 ## Project Deliverables
 
-| ID | Deliverable | Status |
-|:---:|:------------|:------:|
-| **DEL-001** | High-Level Design (HLD) Document | ☐ |
-| **DEL-002** | Low-Level Design (LLD) Document | ☐ |
-| **DEL-003** | Enterprise Network Diagram | ☐ |
-| **DEL-004** | IP Addressing Plan | ☐ |
-| **DEL-005** | VLAN Design Document | ☐ |
-| **DEL-006** | Device Configuration Files | ☐ |
-| **DEL-007** | Security Configuration Guide | ☐ |
-| **DEL-008** | Network Verification Report | ☐ |
-| **DEL-009** | Test Plan and Test Results | ☐ |
-| **DEL-010** | Troubleshooting Guide | ☐ |
-| **DEL-011** | Python Automation Scripts | ☐ |
-| **DEL-012** | Project README Documentation | ☐ |
+| ID | Deliverable | Owner | Status |
+|:---:|:------------|:----------------------|:------:|
+| **DEL-001** | High-Level Design (HLD) Document | Solution Architect | ☐ |
+| **DEL-002** | Low-Level Design (LLD) Document | Network Engineer | ☐ |
+| **DEL-003** | Enterprise Network Diagram | Network Engineer | ☐ |
+| **DEL-004** | IP Addressing Plan | Network Engineer | ☐ |
+| **DEL-005** | VLAN Design Document | Network Engineer | ☐ |
+| **DEL-006** | Device Configuration Files | Network Engineer | ☐ |
+| **DEL-007** | Security Configuration Guide | Security Engineer | ☐ |
+| **DEL-008** | Network Verification Report | Network Engineer | ☐ |
+| **DEL-009** | Test Plan and Test Results | QA Engineer | ☐ |
+| **DEL-010** | Troubleshooting Guide | Network Engineer | ☐ |
+| **DEL-011** | Python Automation Scripts | Automation Engineer | ☐ |
+| **DEL-012** | Project README Documentation | Technical Writer | ☐ |
+
+## Glossary
+
+| Acronym | Definition |
+|----------|------------|
+| ACL | Access Control List |
+| BGP | Border Gateway Protocol |
+| DHCP | Dynamic Host Configuration Protocol |
+| DNS | Domain Name System |
+| HSRP | Hot Standby Router Protocol |
+| NAT | Network Address Translation |
+| NTP | Network Time Protocol |
+| OSPF | Open Shortest Path First |
+| SNMP | Simple Network Management Protocol |
+| SSH | Secure Shell |
+| VLAN | Virtual Local Area Network |
+
+## References
+
+- Cisco Enterprise Campus Design Guide
+- Cisco Validated Designs (CVD)
+- RFC 2328 - OSPF Version 2
+- RFC 4271 - Border Gateway Protocol 4 (BGP-4)
+- NIST SP 800-41 - Guidelines on Firewalls and Firewall Policy
+- Microsoft Windows Server Security Baseline
