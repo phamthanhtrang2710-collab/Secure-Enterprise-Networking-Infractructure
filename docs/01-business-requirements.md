@@ -15,11 +15,11 @@
   <a href="#business-challenges"><img src="https://img.shields.io/badge/CHALLENGES-EA4B4B?style=for-the-badge"></a>
   <a href="#project-objectives"><img src="https://img.shields.io/badge/OBJECTIVES-F2762E?style=for-the-badge"></a>
   <a href="#project-scope"><img src="https://img.shields.io/badge/SCOPE-8A0FAE?style=for-the-badge"></a>
+  <a href="#stakeholders"><img src="https://img.shields.io/badge/STAKEHOLDERS-8A2BE2?style=for-the-badge"></a>
+  <a href="#functional-requirements"><img src="https://img.shields.io/badge/FUNCTIONAL%20REQUIREMENTS-22B800?style=for-the-badge"></a>
 </p>
 
 <p align="center">
-  <a href="#stakeholders"><img src="https://img.shields.io/badge/STAKEHOLDERS-8A2BE2?style=for-the-badge"></a>
-  <a href="#functional-requirements"><img src="https://img.shields.io/badge/FUNCTIONAL%20REQUIREMENTS-22B800?style=for-the-badge"></a>
   <a href="#non-functional-requirements"><img src="https://img.shields.io/badge/NON--FUNCTIONAL-A6A6A6?style=for-the-badge"></a>
   <a href="#security-requirements"><img src="https://img.shields.io/badge/SECURITY-F26B2D?style=for-the-badge"></a>
 </p>
