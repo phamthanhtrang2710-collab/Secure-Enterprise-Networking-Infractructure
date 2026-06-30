@@ -207,7 +207,7 @@ The Layer 2 network is designed to provide secure, scalable, and resilient conne
 | **Native VLAN** | VLAN 999 |
 | **Allowed VLANs** | 10,20,30,40,50,99 |
 | **DTP Mode** | Disabled (`switchport nonegotiate`) |
-| **Trunk Links** | Distribution ↔ Access |
+| **Trunk Links** | Core ↔ Distribution, Distribution ↔ Access |
 
 ### Spanning Tree Design
 
@@ -244,4 +244,192 @@ The Layer 2 network is designed to provide secure, scalable, and resilient conne
 | Layer 2 Security | Port Security, BPDU Guard, Native VLAN, Disabled DTP |
 | Access Port Optimization | PortFast enabled |
 
+## Layer 3 Design
 
+### Overview
+
+The Layer 3 design defines how traffic is routed between VLANs, routed links, internal networks, and the enterprise edge. In this design, inter-VLAN routing and default gateway redundancy are performed at the Core Layer using **CORE-R1** and **CORE-R2** with HSRP.
+
+DIST-SW1 operates as a distribution switch for VLAN trunk aggregation and access-layer connectivity.
+
+### Layer 3 Design Standards
+
+| Design Element | Implementation | Purpose |
+|:---------------|:---------------|:--------|
+| **Inter-VLAN Routing** | Core Layer | Routes traffic between enterprise VLANs |
+| **Default Gateway** | HSRP Virtual IP | Provides redundant default gateways for VLANs |
+| **Gateway Devices** | CORE-R1, CORE-R2 | Provides Layer 3 gateway redundancy |
+| **Distribution Role** | VLAN Trunk Aggregation | Aggregates Access Layer VLAN trunks |
+| **Routed Links** | `/30` Point-to-Point | Used for Edge-to-Core Layer 3 connectivity |
+| **Internal Routing** | OSPF Area 0 | Provides dynamic internal route exchange |
+| **External Routing** | BGP | Simulates ISP/WAN connectivity |
+| **Default Route** | Edge Router toward ISP | Provides Internet-bound traffic forwarding |
+
+### Layer 3 Responsibility Matrix
+
+| Function | Responsible Device | Design Notes |
+|:---------|:-------------------|:-------------|
+| **Inter-VLAN Routing** | CORE-R1 / CORE-R2 | Core routers route traffic between VLANs. |
+| **Default Gateway Redundancy** | CORE-R1 / CORE-R2 | HSRP provides one virtual gateway per VLAN. |
+| **Internal Route Exchange** | CORE-R1 / CORE-R2 / EDGE-R1 | OSPF Area 0 advertises internal networks. |
+| **Internet Edge Routing** | EDGE-R1 | BGP and default routing provide ISP connectivity. |
+| **VLAN Aggregation** | DIST-SW1 | Distribution switch carries VLAN trunks only. |
+| **Access Connectivity** | Access Switches | Access switches connect end-user and server devices. |
+
+### Routed Link Design
+
+| Link | Subnet | Purpose |
+|:-----|:-------|:--------|
+| **EDGE-R1 ↔ CORE-R1** | `10.10.250.0/30` | Primary routed WAN/Core link |
+| **EDGE-R1 ↔ CORE-R2** | `10.10.250.4/30` | Secondary routed WAN/Core link |
+
+### Default Gateway Design
+
+| VLAN | Network | Default Gateway Type | Virtual Gateway |
+|:----:|:--------|:---------------------|:----------------|
+| **10** | `10.10.10.0/24` | HSRP | `10.10.10.1` |
+| **20** | `10.10.20.0/24` | HSRP | `10.10.20.1` |
+| **30** | `10.10.30.0/24` | HSRP | `10.10.30.1` |
+| **40** | `10.10.40.0/24` | HSRP | `10.10.40.1` |
+| **50** | `10.10.50.0/24` | HSRP | `10.10.50.1` |
+| **99** | `10.10.99.0/24` | HSRP | `10.10.99.1` |
+
+### Layer 3 Design Summary
+
+| Category | Design Decision |
+|:---------|:----------------|
+| Inter-VLAN Routing | Performed at the Core Layer |
+| Default Gateway | HSRP virtual IP per VLAN |
+| Core Routers | CORE-R1 and CORE-R2 |
+| Distribution Switch | VLAN trunk aggregation only |
+| Internal Routing | OSPF Area 0 |
+| Edge Routing | BGP and static default route |
+
+## Routing Design
+
+### Overview
+
+The routing design defines how internal VLAN networks, core routers, and the Internet edge exchange routing information. OSPF is used as the internal routing protocol, while BGP is used at the Internet Edge to simulate ISP connectivity.
+
+### Routing Design Summary
+
+| Routing Component | Design Decision | Purpose |
+|:------------------|:----------------|:--------|
+| **Internal Routing** | OSPFv2 | Provides dynamic routing between internal Layer 3 devices |
+| **OSPF Area** | Area 0 | Uses a single backbone area for simplified routing |
+| **Edge Routing** | eBGP | Provides simulated ISP connectivity |
+| **Default Route** | Injected by EDGE-R1 | Provides Internet-bound traffic forwarding |
+| **Gateway Redundancy** | HSRP | Provides redundant default gateways for VLANs |
+| **Inter-VLAN Routing** | CORE-R1 / CORE-R2 | Routes traffic between enterprise VLANs |
+
+### OSPF Design
+
+| Item | Value |
+|:-----|:------|
+| **Protocol** | OSPFv2 |
+| **Process ID** | 1 |
+| **Area** | 0 |
+| **Router IDs** | Defined per router |
+| **Participating Devices** | CORE-R1, CORE-R2, EDGE-R1 |
+| **Route Advertisement** | Enterprise VLANs and routed links |
+| **Default Route** | Injected by EDGE-R1 |
+| **Authentication** | Not implemented in lab environment |
+
+### OSPF Routing Interface Table
+
+| Router | Interface | Network | OSPF Area | Purpose |
+|:-------|:---------:|:--------|:---------:|:--------|
+| **EDGE-R1** | G0/1 | `10.10.250.0/30` | 0 | Link to CORE-R1 |
+| **EDGE-R1** | G0/2 | `10.10.250.4/30` | 0 | Link to CORE-R2 |
+| **CORE-R1** | G0/1 | `10.10.250.0/30` | 0 | Link to EDGE-R1 |
+| **CORE-R2** | G0/1 | `10.10.250.4/30` | 0 | Link to EDGE-R1 |
+| **CORE-R1** | VLAN Interfaces | `10.10.10.0/24 - 10.10.99.0/24` | 0 | VLAN gateway networks |
+| **CORE-R2** | VLAN Interfaces | `10.10.10.0/24 - 10.10.99.0/24` | 0 | VLAN gateway networks |
+
+### BGP Design
+
+| Item | Value |
+|:-----|:------|
+| **Protocol** | eBGP |
+| **Enterprise AS** | 65001 |
+| **ISP AS** | 65000 |
+| **BGP Peer** | ISP Router |
+| **BGP Location** | EDGE-R1 |
+| **Purpose** | Simulated ISP / Internet connectivity |
+| **Default Route** | Learned from ISP or statically configured toward ISP |
+
+### BGP Peering Table
+
+| Local Device | Local AS | Peer Device | Peer AS | Purpose |
+|:-------------|:--------:|:------------|:-------:|:--------|
+| **EDGE-R1** | 65001 | **ISP Router** | 65000 | Internet edge routing |
+
+### Static Route Design
+
+| Device | Route | Next Hop | Purpose |
+|:-------|:------|:---------|:--------|
+| **EDGE-R1** | `0.0.0.0/0` | ISP Gateway | Default route toward the ISP |
+| **ISP Router** | Enterprise Prefixes | EDGE-R1 | Return path to enterprise networks |
+
+### Routing Design Summary
+
+| Category | Design Decision |
+|:---------|:----------------|
+| Internal Routing Protocol | OSPFv2 |
+| OSPF Area | Area 0 |
+| External Routing Protocol | eBGP |
+| Enterprise AS | 65001 |
+| ISP AS | 65000 |
+| Default Route Source | EDGE-R1 / ISP |
+| Inter-VLAN Routing Location | Core Layer |
+
+## HSRP Design
+
+### Overview
+
+Hot Standby Router Protocol (HSRP) is implemented on **CORE-R1** and **CORE-R2** to provide highly available default gateway services for all enterprise VLANs. End devices use a virtual IP address as their default gateway, allowing seamless failover if the active router becomes unavailable.
+
+### HSRP Design Parameters
+
+| Item | Value |
+|:-----|:------|
+| **Protocol Version** | HSRPv2 |
+| **Active Router** | CORE-R1 |
+| **Standby Router** | CORE-R2 |
+| **Preemption** | Enabled |
+| **Interface Tracking** | Enabled |
+| **Authentication** | Not Configured (Lab Environment) |
+| **Load Sharing** | Not Implemented |
+| **Failover Method** | Automatic |
+
+### HSRP VLAN Mapping
+
+| VLAN | HSRP Group | Virtual IP | Active Router | Standby Router | CORE-R1 Priority | CORE-R2 Priority |
+|:----:|:----------:|:-----------|:--------------|:---------------|:----------------:|:----------------:|
+| **10** | 10 | `10.10.10.1` | CORE-R1 | CORE-R2 | 110 | 100 |
+| **20** | 20 | `10.10.20.1` | CORE-R1 | CORE-R2 | 110 | 100 |
+| **30** | 30 | `10.10.30.1` | CORE-R1 | CORE-R2 | 110 | 100 |
+| **40** | 40 | `10.10.40.1` | CORE-R1 | CORE-R2 | 110 | 100 |
+| **50** | 50 | `10.10.50.1` | CORE-R1 | CORE-R2 | 110 | 100 |
+| **99** | 99 | `10.10.99.1` | CORE-R1 | CORE-R2 | 110 | 100 |
+
+### HSRP Failover Behavior
+
+| Event | Expected Behavior |
+|:------|:------------------|
+| **CORE-R1 Failure** | CORE-R2 automatically becomes the active gateway. |
+| **CORE-R1 Recovery** | CORE-R1 resumes the active role through preemption. |
+| **WAN Interface Failure** | Interface tracking reduces HSRP priority and initiates failover. |
+| **Normal Operation** | CORE-R1 forwards gateway traffic while CORE-R2 remains in standby mode. |
+
+### HSRP Design Summary
+
+| Category | Design Decision |
+|:---------|:----------------|
+| HSRP Version | HSRPv2 |
+| Gateway Redundancy | CORE-R1 / CORE-R2 |
+| Virtual Gateway | One VIP per VLAN |
+| Preferred Active Device | CORE-R1 |
+| Standby Device | CORE-R2 |
+| Preemption | Enabled |
+| Interface Tracking | Enabled |
