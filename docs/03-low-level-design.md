@@ -72,7 +72,7 @@ The following table lists all network and server devices included in the enterpr
 
 | Hostname | Device Model | Layer | Primary Role | Management IP | Location |
 |:---------|:-------------|:------|:-------------|:-------------|:---------|
-| **EDGE-R1** | Cisco ISR 4331 | Edge | Internet Edge Router (BGP, NAT) | `10.10.99.1` | Data Center |
+| **EDGE-R1** | Cisco ISR 4331 | Edge | Internet Edge Router (BGP, NAT) | `10.10.99.4` | Data Center |
 | **CORE-R1** | Cisco ISR 4331 | Core | Core Router (HSRP Active, OSPF) | `10.10.99.2` | Data Center |
 | **CORE-R2** | Cisco ISR 4331 | Core | Core Router (HSRP Standby, OSPF) | `10.10.99.3` | Data Center |
 | **DIST-SW1** | Cisco Catalyst 3560 | Distribution | Distribution Switch for VLAN Trunking and Access Switch Aggregation | `10.10.99.10` | Data Center |
@@ -178,7 +178,7 @@ This section defines the interface allocation for all network devices, including
 
 | Device | Interface | Connected To | IP Address / Subnet | VLAN | Description |
 |:-------|:---------:|:-------------|:-------------------|:----:|:------------|
-| **EDGE-R1** | G0/0 | ISP Router | `203.0.113.2/30` | N/A | Internet uplink |
+| **EDGE-R1** | G0/0 | ISP Router | `203.0.113.1/30` | N/A | Internet uplink |
 | **EDGE-R1** | G0/1 | CORE-R1 | `10.10.250.1/30` | N/A | Primary WAN link |
 | **EDGE-R1** | G0/2 | CORE-R2 | `10.10.250.5/30` | N/A | Secondary WAN link |
 | **CORE-R1** | G0/0 | DIST-SW1 | N/A | Trunk | Core-to-Distribution VLAN trunk |
@@ -550,7 +550,7 @@ Network Address Translation (NAT) is implemented on **EDGE-R1** to provide Inter
 | **Translation Device** | EDGE-R1 |
 | **Inside Interface** | Enterprise-facing interfaces |
 | **Outside Interface** | ISP-facing interface (G0/0) |
-| **Public IP** | EDGE-R1 Internet interface (`203.0.113.2`) |
+| **Public IP** | EDGE-R1 Internet interface (`203.0.113.1`) |
 | **Translated Networks** | Enterprise VLANs (`10.10.0.0/16`) |
 | **Translation Direction** | Inside Local → Inside Global |
 
@@ -654,7 +654,7 @@ The enterprise DNS infrastructure provides centralized name resolution for inter
 |:---------|:-----------:|:-----------|:--------|
 | **win-srv01.verra.local** | A | 10.10.50.10 | Windows Server |
 | **lnx-srv01.verra.local** | A | 10.10.50.20 | Linux Server |
-| **edge-r1.verra.local** | A | 10.10.99.1 | Edge Router |
+| **edge-r1.verra.local** | A | 10.10.99.4 | Edge Router |
 | **core-r1.verra.local** | A | 10.10.99.2 | Core Router |
 | **core-r2.verra.local** | A | 10.10.99.3 | Core Router |
 | **dist-sw1.verra.local** | A | 10.10.99.10 | Distribution Switch |
@@ -705,7 +705,7 @@ The management network provides secure administrative access to all enterprise i
 
 | Device Category | Management IP Range | Access Method |
 |:----------------|:-------------------|:--------------|
-| Edge Router | 10.10.99.1 | SSH |
+| Edge Router | 10.10.99.4 | SSH |
 | Core Routers | 10.10.99.2–3 | SSH |
 | Distribution Switch | 10.10.99.10 | SSH |
 | Access Switches | 10.10.99.21–25 | SSH |
@@ -923,7 +923,7 @@ If an implementation step causes service disruption or fails validation, the aff
 
 | Device | Role | Management IP |
 |:-------|:-----|:--------------|
-| EDGE-R1 | Internet Edge Router | 10.10.99.1 |
+| EDGE-R1 | Internet Edge Router | 10.10.99.4 |
 | CORE-R1 | Core Router | 10.10.99.2 |
 | CORE-R2 | Core Router | 10.10.99.3 |
 | DIST-SW1 | Distribution Switch | 10.10.99.10 |
@@ -955,8 +955,9 @@ If an implementation step causes service disruption or fails validation, the aff
 | 10.10.40.0/24 | Sales |
 | 10.10.50.0/24 | Servers |
 | 10.10.99.0/24 | Management |
-| 10.10.250.0/30 | EDGE ↔ CORE |
-| 203.0.113.0/30 | ISP Connection |
+| 10.10.250.0/30 | EDGE-R1 ↔ CORE-R1 |
+| 10.10.250.4/30 | EDGE-R1 ↔ CORE-R2 |
+| 203.0.113.0/30 | EDGE-R1 ↔ ISP |
 
 
 ### Related Documents
@@ -970,6 +971,18 @@ If an implementation step causes service disruption or fails validation, the aff
 | VLAN Design | Layer 2 segmentation |
 | Device Configuration | Cisco IOS configurations |
 | Test Plan | Validation procedures |
+
+<p align="right">
+<a href="#contents">⬆️ Back to Contents</a>
+</p>
+
+## References
+
+- Cisco Enterprise Campus Design Guide
+- Cisco Validated Design (CVD)
+- RFC 1918 - Address Allocation for Private Internets
+- RFC 2328 - OSPF Version 2
+- RFC 4271 - Border Gateway Protocol 4
 
 <p align="right">
 <a href="#contents">⬆️ Back to Contents</a>
