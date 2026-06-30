@@ -122,7 +122,7 @@ The following table defines the physical interconnections between all network de
 
 | Item | Standard |
 |:-----|:---------|
-| **Core Links** | Routed Layer 3 point-to-point connections. |
+| **Core-to-Distribution Links** | IEEE 802.1Q trunk links carrying enterprise VLANs between the Core and Distribution layers. |
 | **Distribution Links** | IEEE 802.1Q trunk links carrying multiple VLANs. |
 | **Server Connections** | Access ports assigned to the Server VLAN. |
 | **WAN Links** | Routed interfaces connecting the enterprise edge to the ISP simulation. |
@@ -166,8 +166,8 @@ This section defines the interface allocation for all network devices, including
 | Item | Standard |
 |:-----|:---------|
 | **WAN Interfaces** | Configured as Layer 3 routed interfaces using `/30` point-to-point subnets. |
-| **Core Links** | Routed Layer 3 connections between the Core and Distribution layers. |
-| **Switch Uplinks** | IEEE 802.1Q trunk interfaces carrying multiple VLANs. |
+| **Core-to-Distribution Links** | Configured as IEEE 802.1Q trunk interfaces to carry VLAN traffic between CORE-R1/CORE-R2 and DIST-SW1. |
+| **Switch Uplinks** | Distribution-to-Access uplinks are configured as IEEE 802.1Q trunk interfaces carrying assigned VLANs. |
 | **Server Ports** | Configured as access ports assigned to the Server VLAN. |
 | **Interface Naming** | Cisco GigabitEthernet naming convention is used throughout the infrastructure. |
 | **Addressing** | All interface IP addresses follow the Enterprise IP Addressing Plan. |
