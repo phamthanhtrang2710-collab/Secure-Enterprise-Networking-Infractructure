@@ -31,8 +31,6 @@
 <p align="left">
 
 <a href="#summary"><img src="https://img.shields.io/badge/SUMMARY-2C3E50?style=for-the-badge"></a>
-<a href="#glossary"><img src="https://img.shields.io/badge/GLOSSARY-16A085?style=for-the-badge"></a>
-<a href="#references"><img src="https://img.shields.io/badge/REFERENCES-27AE60?style=for-the-badge"></a>
 
 </p>
 
