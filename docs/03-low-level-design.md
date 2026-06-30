@@ -1,6 +1,41 @@
 # Low-Level Design Document
 
-## Contents
+## <a id="contents"></a>Contents
+
+<p align="left">
+
+<a href="#overview"><img src="https://img.shields.io/badge/OVERVIEW-0B8FD3?style=for-the-badge"></a>
+<a href="#design-scope"><img src="https://img.shields.io/badge/DESIGN%20SCOPE-27AE60?style=for-the-badge"></a>
+<a href="#device-inventory"><img src="https://img.shields.io/badge/DEVICE%20INVENTORY-8E44AD?style=for-the-badge"></a>
+<a href="#device-naming-convention"><img src="https://img.shields.io/badge/NAMING%20CONVENTION-16A085?style=for-the-badge"></a>
+<a href="#physical-connectivity"><img src="https://img.shields.io/badge/PHYSICAL%20CONNECTIVITY-2980B9?style=for-the-badge"></a>
+<a href="#interface-assignment"><img src="https://img.shields.io/badge/INTERFACE%20ASSIGNMENT-3498DB?style=for-the-badge"></a>
+
+</p>
+
+<p align="left">
+  
+<a href="#layer-2-design"><img src="https://img.shields.io/badge/LAYER%202-E67E22?style=for-the-badge"></a>
+<a href="#layer-3-design"><img src="https://img.shields.io/badge/LAYER%203-D35400?style=for-the-badge"></a>
+<a href="#routing-design"><img src="https://img.shields.io/badge/ROUTING-C0392B?style=for-the-badge"></a>
+<a href="#hsrp-design"><img src="https://img.shields.io/badge/HSRP-9B59B6?style=for-the-badge"></a>
+<a href="#acl-design"><img src="https://img.shields.io/badge/ACL%20DESIGN-E74C3C?style=for-the-badge"></a>
+<a href="#nat-design"><img src="https://img.shields.io/badge/NAT%20DESIGN-1ABC9C?style=for-the-badge"></a>
+<a href="#firewall-policy"><img src="https://img.shields.io/badge/FIREWALL%20POLICY-34495E?style=for-the-badge"></a>
+<a href="#dns-design"><img src="https://img.shields.io/badge/DNS%20DESIGN-2ECC71?style=for-the-badge"></a>
+<a href="#management-design"><img src="https://img.shields.io/badge/MANAGEMENT-7F8C8D?style=for-the-badge"></a>
+
+</p>
+
+<p align="left">
+  
+<a href="#monitoring-design"><img src="https://img.shields.io/badge/MONITORING-2C3E50?style=for-the-badge"></a>
+<a href="#implementation-sequence"><img src="https://img.shields.io/badge/IMPLEMENTATION-95A5A6?style=for-the-badge"></a>
+<a href="#rollback-strategy"><img src="https://img.shields.io/badge/ROLLBACK-8E44AD?style=for-the-badge"></a>
+<a href="#verification-plan"><img src="https://img.shields.io/badge/VERIFICATION-27AE60?style=for-the-badge"></a>
+<a href="#appendix"><img src="https://img.shields.io/badge/APPENDIX-0B8FD3?style=for-the-badge"></a>
+
+</p>
 
 ## Overview
 
@@ -26,6 +61,10 @@ This document serves as the primary technical reference during implementation.
 | **Server Connectivity** | Documents server VLAN access, gateway configuration, and service reachability. |
 | **Monitoring Integration** | Covers Syslog, SNMP, and network visibility requirements. |
 | **Device Management** | Defines management VLAN access, SSH access, and administrative connectivity. |
+
+<p align="right">
+<a href="#contents">⬆️ Back to Contents</a>
+</p>
 
 ## Device Inventory
 
@@ -244,6 +283,10 @@ The Layer 2 network is designed to provide secure, scalable, and resilient conne
 | Layer 2 Security | Port Security, BPDU Guard, Native VLAN, Disabled DTP |
 | Access Port Optimization | PortFast enabled |
 
+<p align="right">
+<a href="#contents">⬆️ Back to Contents</a>
+</p>
+
 ## Layer 3 Design
 
 ### Overview
@@ -304,6 +347,10 @@ DIST-SW1 operates as a distribution switch for VLAN trunk aggregation and access
 | Distribution Switch | VLAN trunk aggregation only |
 | Internal Routing | OSPF Area 0 |
 | Edge Routing | BGP and static default route |
+
+<p align="right">
+<a href="#contents">⬆️ Back to Contents</a>
+</p>
 
 ## Routing Design
 
@@ -383,6 +430,10 @@ The routing design defines how internal VLAN networks, core routers, and the Int
 | Default Route Source | EDGE-R1 / ISP |
 | Inter-VLAN Routing Location | Core Layer |
 
+<p align="right">
+<a href="#contents">⬆️ Back to Contents</a>
+</p>
+
 ## HSRP Design
 
 ### Overview
@@ -433,3 +484,493 @@ Hot Standby Router Protocol (HSRP) is implemented on **CORE-R1** and **CORE-R2**
 | Standby Device | CORE-R2 |
 | Preemption | Enabled |
 | Interface Tracking | Enabled |
+
+<p align="right">
+<a href="#contents">⬆️ Back to Contents</a>
+</p>
+
+## ACL Design
+
+### Overview
+
+ACL design defines the traffic control policy between enterprise VLANs and security zones. Access Control Lists are used to enforce least-privilege communication, restrict unauthorized inter-VLAN traffic, and protect critical business services.
+
+ACL commands are not included in this section. This section documents the intended access policy only.
+
+### ACL Policy Matrix
+
+| Source | Destination | Service | Action | Reason |
+|:-------|:------------|:--------|:------:|:-------|
+| **IT VLAN** | All Enterprise VLANs | Any | Allow | Infrastructure administration and technical support |
+| **Management VLAN** | Network Devices | SSH, SNMP | Allow | Secure device management and monitoring |
+| **HR VLAN** | Finance VLAN | Any | Deny | Protects payroll and financial data |
+| **Finance VLAN** | Server VLAN | DNS, DHCP, HTTPS, Database Services | Allow | Required for finance applications |
+| **Sales VLAN** | Server VLAN | HTTPS, DNS | Allow | Access to approved business applications |
+| **HR VLAN** | Server VLAN | DNS, DHCP, HTTPS | Allow | Access to centralized services |
+| **User VLANs** | Management VLAN | Any | Deny | Prevents unauthorized administrative access |
+| **User VLANs** | Internet | HTTP, HTTPS, DNS | Allow | Standard business Internet access |
+| **Guest / Untrusted VLAN** | Internal VLANs | Any | Deny | Prevents access to enterprise resources |
+| **Any** | Any | Any | Deny | Default deny policy |
+
+### ACL Design Standards
+
+| Item | Design Standard |
+|:-----|:----------------|
+| **Policy Model** | Least privilege |
+| **Default Policy** | Deny by default |
+| **Administrative Access** | Allowed only from the Management VLAN and IT VLAN |
+| **Server Access** | Restricted to required business services |
+| **Finance Protection** | Finance VLAN is isolated from non-authorized user VLANs |
+| **Management Protection** | User VLANs cannot access infrastructure management interfaces |
+| **Internet Access** | User VLANs are allowed outbound access through the firewall/NAT boundary |
+
+### ACL Design Summary
+
+| Category | Design Decision |
+|:---------|:----------------|
+| Inter-VLAN Filtering | Enforced using ACLs |
+| Access Model | Business-justified access only |
+| Management Access | Restricted to authorized VLANs |
+| Sensitive VLANs | Finance and Management VLANs receive stricter controls |
+| Default Rule | Explicit deny |
+
+<p align="right">
+<a href="#contents">⬆️ Back to Contents</a>
+</p>
+
+## NAT Design
+
+Network Address Translation (NAT) is implemented on **EDGE-R1** to provide Internet connectivity for internal enterprise networks. Port Address Translation (PAT) is used so that multiple private IP addresses can share a single public IP address assigned to the Internet-facing interface.
+
+### NAT Design Parameters
+
+| Feature | Implementation |
+|:--------|:---------------|
+| **NAT Type** | Port Address Translation (PAT) |
+| **Translation Device** | EDGE-R1 |
+| **Inside Interface** | Enterprise-facing interfaces |
+| **Outside Interface** | ISP-facing interface (G0/0) |
+| **Public IP** | EDGE-R1 Internet interface (`203.0.113.2`) |
+| **Translated Networks** | Enterprise VLANs (`10.10.0.0/16`) |
+| **Translation Direction** | Inside Local → Inside Global |
+
+### NAT Traffic Flow
+
+| Source | Destination | NAT Action | Result |
+|:-------|:------------|:----------|:-------|
+| Enterprise VLANs | Internet | PAT Translation | Private addresses translated to the EDGE-R1 public IP |
+| Internet | Enterprise | Return Translation | Existing NAT sessions are translated back to the originating internal hosts |
+| Internet | Internal Devices | Direct Access | Not permitted unless explicitly configured |
+
+### NAT Design Summary
+
+| Category | Design Decision |
+|:---------|:----------------|
+| NAT Type | PAT (Overload) |
+| NAT Device | EDGE-R1 |
+| Public Address | Internet-facing interface |
+| Inside Network | Enterprise VLANs |
+| Outside Network | ISP |
+| Static NAT | Not Implemented |
+| Dynamic NAT Pool | Not Implemented |
+
+<p align="right">
+<a href="#contents">⬆️ Back to Contents</a>
+</p>
+
+## Firewall Policy
+
+### Overview
+
+The firewall policy defines how traffic is controlled between the enterprise internal network and the external ISP/Internet zone. In this lab environment, perimeter filtering is simulated using firewall rules or edge ACLs on **EDGE-R1**.
+
+### Firewall Zone Design
+
+| Zone | Description | Typical Networks |
+|:-----|:------------|:-----------------|
+| **Inside Zone** | Trusted enterprise network | User VLANs, Server VLAN, Management VLAN |
+| **Outside Zone** | Untrusted external network | ISP / Internet |
+| **Management Zone** | Administrative network | VLAN 99 |
+
+### Firewall Policy Matrix
+
+| Source Zone | Destination Zone | Service | Action | Reason |
+|:------------|:-----------------|:--------|:------:|:-------|
+| **Inside Zone** | Outside Zone | HTTP, HTTPS, DNS, ICMP | Allow | Standard outbound Internet access |
+| **Inside Zone** | Outside Zone | Any | Deny | Blocks unauthorized outbound traffic |
+| **Outside Zone** | Inside Zone | Established Sessions | Allow | Allows return traffic for internal-initiated sessions |
+| **Outside Zone** | Inside Zone | Any | Deny | Blocks unsolicited inbound traffic |
+| **Management Zone** | EDGE-R1 | SSH, SNMP | Allow | Secure administrative access |
+| **Outside Zone** | Management Zone | Any | Deny | Prevents external access to management network |
+| **Any** | Any | Any | Deny | Default deny policy |
+
+### Firewall Design Standards
+
+| Item | Design Standard |
+|:-----|:----------------|
+| **Security Model** | Default deny |
+| **Inbound Access** | Denied unless explicitly permitted |
+| **Outbound Access** | Limited to required business services |
+| **Management Access** | Allowed only from the Management VLAN |
+| **NAT Integration** | Inside traffic is translated using PAT on EDGE-R1 |
+| **Logging** | Security events should be forwarded to the Syslog server |
+
+### Firewall Design Summary
+
+| Category | Design Decision |
+|:---------|:----------------|
+| Perimeter Control | Simulated on EDGE-R1 |
+| Trusted Zone | Inside enterprise VLANs |
+| Untrusted Zone | ISP / Internet |
+| Default Policy | Deny |
+| Internet Access | Internal-initiated traffic only |
+| Management Access | Restricted to VLAN 99 |
+
+<p align="right">
+<a href="#contents">⬆️ Back to Contents</a>
+</p>
+
+## DNS Design
+
+### Overview
+
+The enterprise DNS infrastructure provides centralized name resolution for internal resources while forwarding external queries to public DNS servers.
+
+### DNS Configuration
+
+| Item | Configuration |
+|:-----|:--------------|
+| **DNS Platform** | Windows Server 2022 |
+| **DNS Type** | AD-Integrated DNS |
+| **Primary Zone** | verra.local |
+| **Zone Type** | Forward Lookup Zone |
+| **Dynamic Updates** | Secure Only |
+| **DNS Forwarders** | 8.8.8.8, 1.1.1.1 |
+| **Primary DNS Server** | WIN-SRV01 |
+
+### Internal DNS Records
+
+| Hostname | Record Type | IP Address | Purpose |
+|:---------|:-----------:|:-----------|:--------|
+| **win-srv01.verra.local** | A | 10.10.50.10 | Windows Server |
+| **lnx-srv01.verra.local** | A | 10.10.50.20 | Linux Server |
+| **edge-r1.verra.local** | A | 10.10.99.1 | Edge Router |
+| **core-r1.verra.local** | A | 10.10.99.2 | Core Router |
+| **core-r2.verra.local** | A | 10.10.99.3 | Core Router |
+| **dist-sw1.verra.local** | A | 10.10.99.10 | Distribution Switch |
+
+### DNS Design Summary
+
+| Category | Design Decision |
+|:---------|:----------------|
+| DNS Platform | Windows Server 2022 |
+| DNS Integration | Active Directory Integrated |
+| Internal Zone | verra.local |
+| External Resolution | DNS Forwarders |
+| Dynamic Updates | Secure Only |
+| High Availability | Future Enhancement |
+
+<p align="right">
+<a href="#contents">⬆️ Back to Contents</a>
+</p>
+
+## Management Design
+
+### Overview
+
+The management network provides secure administrative access to all enterprise infrastructure devices. Centralized management services improve operational efficiency, enhance security, and simplify troubleshooting.
+
+### Management Services
+
+| Service | Configuration | Purpose |
+|:--------|:--------------|:--------|
+| **Management VLAN** | VLAN 99 (`10.10.99.0/24`) | Dedicated management network for infrastructure devices |
+| **SSH** | Version 2 | Secure remote device administration |
+| **Telnet** | Disabled | Eliminates insecure remote management |
+| **AAA** | Local Authentication | Administrative login authentication |
+| **SNMP** | SNMPv3 (SNMPv2c for Lab if required) | Infrastructure monitoring |
+| **Syslog** | Ubuntu Server (`LNX-SRV01`) | Centralized event logging |
+| **NTP** | Windows Server (`WIN-SRV01`) | Time synchronization |
+
+### Management Access Policy
+
+| Source | Destination | Access | Protocol |
+|:-------|:------------|:------:|:---------|
+| **IT VLAN** | Infrastructure Devices | Allow | SSH |
+| **Management VLAN** | Infrastructure Devices | Allow | SSH, SNMP |
+| **User VLANs** | Infrastructure Devices | Deny | All |
+| **Internet** | Infrastructure Devices | Deny | All |
+
+### Device Management Summary
+
+| Device Category | Management IP Range | Access Method |
+|:----------------|:-------------------|:--------------|
+| Edge Router | 10.10.99.1 | SSH |
+| Core Routers | 10.10.99.2–3 | SSH |
+| Distribution Switch | 10.10.99.10 | SSH |
+| Access Switches | 10.10.99.21–25 | SSH |
+| Windows Server | 10.10.50.10 | RDP / PowerShell |
+| Ubuntu Server | 10.10.50.20 | SSH |
+
+### Design Summary
+
+| Category | Design Decision |
+|:---------|:----------------|
+| Management Network | Dedicated VLAN 99 |
+| Remote Access | SSH Version 2 |
+| Authentication | Local AAA |
+| Monitoring | SNMPv3 |
+| Logging | Centralized Syslog |
+| Time Synchronization | Centralized NTP |
+| Legacy Protocols | Telnet Disabled |
+
+<p align="right">
+<a href="#contents">⬆️ Back to Contents</a>
+</p>
+
+## Monitoring Design
+
+### Overview
+
+The enterprise monitoring solution provides centralized visibility into network devices, servers, and infrastructure services. Monitoring enables proactive fault detection, performance analysis, and operational reporting.
+
+### Monitoring Components
+
+| Component | Monitoring Items | Technology |
+|:----------|:-----------------|:-----------|
+| **Routers** | CPU, Memory, Interface Status, Routing | SNMP |
+| **Switches** | Port Status, VLANs, Interface Utilization | SNMP |
+| **Servers** | CPU, Memory, Disk, Service Availability | SNMP / Agent |
+| **Syslog** | Security Events, Configuration Changes | Syslog |
+| **Network Services** | DHCP, DNS, NTP Availability | ICMP / Service Checks |
+
+### Monitoring Platform
+
+| Item | Configuration |
+|:-----|:--------------|
+| **Monitoring Platform** | LibreNMS / Zabbix |
+| **Monitoring Protocol** | SNMPv3 (SNMPv2c for Lab if required) |
+| **Log Collection** | Syslog Server (LNX-SRV01) |
+| **Alert Method** | Dashboard & Email (Future Enhancement) |
+| **Polling Interval** | Default |
+
+### Monitoring Workflow
+
+<img width="1695" height="928" alt="monitoring-workflow" src="https://github.com/user-attachments/assets/52fc8303-ea04-40d8-9957-75ae394196d4" />
+
+
+### Design Summary
+
+| Category | Design Decision |
+|:---------|:----------------|
+| Monitoring Platform | LibreNMS / Zabbix |
+| Device Monitoring | SNMP |
+| Log Collection | Syslog |
+| Service Monitoring | ICMP / Service Checks |
+| Alerting | Dashboard |
+| Reporting | Historical Performance |
+
+<p align="right">
+<a href="#contents">⬆️ Back to Contents</a>
+</p>
+
+## Implementation Sequence
+
+### Overview
+
+The implementation sequence defines the recommended deployment order to ensure that network dependencies are satisfied and to minimize service disruption during implementation.
+
+| Step | Phase | Activity | Expected Outcome |
+|:---:|:------|:---------|:-----------------|
+| **1** | Device Preparation | Configure hostnames, passwords, and management interfaces | Devices are ready for deployment |
+| **2** | Layer 2 | Create VLANs and configure access ports | Department segmentation established |
+| **3** | Layer 2 | Configure trunk links and native VLAN | VLAN traffic can traverse the network |
+| **4** | Layer 2 | Configure STP, PortFast, BPDU Guard, and Port Security | Layer 2 security enabled |
+| **5** | Layer 3 | Configure SVIs, routed interfaces, and default gateways | Layer 3 connectivity established |
+| **6** | High Availability | Configure HSRP | Redundant default gateways available |
+| **7** | Routing | Configure OSPF | Internal dynamic routing operational |
+| **8** | Routing | Configure BGP | Internet edge routing established |
+| **9** | Security | Configure NAT and ACLs | Secure Internet access and traffic filtering |
+| **10** | Infrastructure Services | Deploy DHCP, DNS, NTP, Syslog, and SNMP | Centralized services available |
+| **11** | Monitoring | Configure LibreNMS / Zabbix monitoring | Infrastructure monitoring enabled |
+| **12** | Automation | Configure Python backup and validation scripts | Automated operations available |
+| **13** | Validation | Perform connectivity and service verification | Implementation successfully validated |
+
+### Deployment Dependencies
+
+| Component | Depends On |
+|:----------|:-----------|
+| VLANs | Switch configuration |
+| Trunk Links | VLAN creation |
+| Layer 3 Interfaces | VLAN implementation |
+| HSRP | Layer 3 interfaces |
+| OSPF | Routed interfaces |
+| BGP | OSPF |
+| NAT | BGP |
+| ACLs | Routing |
+| Infrastructure Services | Layer 3 connectivity |
+| Monitoring | Infrastructure Services |
+| Validation | All previous phases |
+
+### Design Summary
+
+| Category | Design Decision |
+|:---------|:----------------|
+| Deployment Method | Phased Implementation |
+| Layer 2 Before Layer 3 | Yes |
+| Routing Before Services | Yes |
+| Services Before Monitoring | Yes |
+| Validation | Final Implementation Phase |
+
+<p align="right">
+<a href="#contents">⬆️ Back to Contents</a>
+</p>
+
+## Rollback Strategy
+
+### Overview
+
+If an implementation step causes service disruption or fails validation, the affected configuration should be reverted to the last known stable state before proceeding.
+
+### Rollback Plan
+
+| Failure Scenario | Possible Impact | Rollback Action |
+|:-----------------|:----------------|:----------------|
+| **VLAN Configuration Failure** | End devices lose Layer 2 connectivity | Restore the previous VLAN database and trunk configuration |
+| **Trunk Configuration Failure** | VLAN traffic cannot traverse between switches | Restore the previous trunk configuration |
+| **OSPF Failure** | Internal routing becomes unavailable | Restore the previous OSPF configuration from backup |
+| **HSRP Failure** | Default gateway redundancy is lost | Restore the previous HSRP configuration or force traffic to the standby router |
+| **BGP Failure** | Internet connectivity is unavailable | Restore the previous BGP neighbor configuration |
+| **ACL Misconfiguration** | Legitimate traffic is blocked | Remove the new ACL and restore the previous access policy |
+| **NAT Failure** | Internal users cannot access the Internet | Restore the previous NAT configuration |
+| **Management Service Failure** | Devices become inaccessible via SSH/SNMP | Restore the previous management configuration |
+| **Infrastructure Service Failure** | DHCP, DNS, Syslog, or NTP services become unavailable | Restore the previous server configuration or service backup |
+
+### Design Summary
+
+| Category | Design Decision |
+|:---------|:----------------|
+| Configuration Backup | Required before every major change |
+| Rollback Trigger | Service disruption or failed validation |
+| Recovery Method | Restore last known good configuration |
+| Validation | Re-run verification after rollback |
+
+<p align="right">
+<a href="#contents">⬆️ Back to Contents</a>
+</p>
+
+## Verification Plan
+
+### Verification Checklist
+
+| ID | Verification Item | Expected Result | Status |
+|:--:|:------------------|:----------------|:------:|
+| **VER-001** | Device Reachability | All infrastructure devices respond to ICMP | ☐ |
+| **VER-002** | Management Access | SSH access successful from Management VLAN | ☐ |
+| **VER-003** | VLAN Segmentation | End devices receive correct VLAN assignment | ☐ |
+| **VER-004** | Trunk Links | All required VLANs traverse trunk interfaces | ☐ |
+| **VER-005** | Inter-VLAN Routing | Communication between authorized VLANs succeeds | ☐ |
+| **VER-006** | HSRP Failover | Standby router becomes active after failure | ☐ |
+| **VER-007** | OSPF Routing | All internal routes are learned dynamically | ☐ |
+| **VER-008** | BGP Connectivity | Edge router establishes BGP neighbor relationship | ☐ |
+| **VER-009** | Internet Access | Internal users successfully access external networks | ☐ |
+| **VER-010** | NAT Operation | Private addresses translate successfully | ☐ |
+| **VER-011** | ACL Enforcement | Unauthorized traffic is blocked | ☐ |
+| **VER-012** | DHCP Service | Clients receive valid IP configuration | ☐ |
+| **VER-013** | DNS Resolution | Internal and external names resolve successfully | ☐ |
+| **VER-014** | Syslog | Device logs appear on Syslog Server | ☐ |
+| **VER-015** | SNMP Monitoring | Devices report status to monitoring platform | ☐ |
+| **VER-016** | NTP Synchronization | Infrastructure devices share consistent time | ☐ |
+| **VER-017** | Monitoring Dashboard | Devices display healthy operational status | ☐ |
+| **VER-018** | Configuration Backup | Python automation successfully backs up configurations | ☐ |
+
+### Acceptance Criteria
+
+| Category | Success Criteria |
+|:---------|:-----------------|
+| Connectivity | All devices reachable |
+| Routing | OSPF & BGP operational |
+| High Availability | HSRP failover successful |
+| Security | ACL & NAT function correctly |
+| Infrastructure Services | DHCP, DNS, Syslog, SNMP, NTP operational |
+| Monitoring | All devices visible on monitoring platform |
+| Automation | Backup scripts complete successfully |
+
+### Design Summary
+
+| Category | Design Decision |
+|:---------|:----------------|
+| Verification Method | Functional Testing |
+| Validation Type | End-to-End Verification |
+| Acceptance Requirement | All verification items must pass |
+
+## Appendix
+
+### VLAN Matrix
+
+| VLAN | Name | Subnet | Gateway |
+|:----:|------|---------|---------|
+| 10 | HR | 10.10.10.0/24 | 10.10.10.1 |
+| 20 | IT | 10.10.20.0/24 | 10.10.20.1 |
+| 30 | Finance | 10.10.30.0/24 | 10.10.30.1 |
+| 40 | Sales | 10.10.40.0/24 | 10.10.40.1 |
+| 50 | Server | 10.10.50.0/24 | 10.10.50.1 |
+| 99 | Management | 10.10.99.0/24 | 10.10.99.1 |
+| 999 | Native | N/A | N/A |
+
+
+### Device Summary
+
+| Device | Role | Management IP |
+|:-------|:-----|:--------------|
+| EDGE-R1 | Internet Edge Router | 10.10.99.1 |
+| CORE-R1 | Core Router | 10.10.99.2 |
+| CORE-R2 | Core Router | 10.10.99.3 |
+| DIST-SW1 | Distribution Switch | 10.10.99.10 |
+| HR-SW01 | Access Switch | 10.10.99.21 |
+| IT-SW01 | Access Switch | 10.10.99.22 |
+| FIN-SW01 | Access Switch | 10.10.99.23 |
+| SALES-SW01 | Access Switch | 10.10.99.24 |
+| SRV-SW01 | Server Switch | 10.10.99.25 |
+
+
+### Interface Summary
+
+| Link | Interface |
+|:-----|:----------|
+| EDGE-R1 ↔ CORE-R1 | G0/1 |
+| EDGE-R1 ↔ CORE-R2 | G0/2 |
+| CORE-R1 ↔ DIST-SW1 | G0/0 ↔ G1/0/1 |
+| CORE-R2 ↔ DIST-SW1 | G0/0 ↔ G1/0/2 |
+| DIST-SW1 ↔ Access Switches | IEEE 802.1Q Trunks |
+
+
+### IP Allocation Summary
+
+| Network | Purpose |
+|:---------|:--------|
+| 10.10.10.0/24 | HR |
+| 10.10.20.0/24 | IT |
+| 10.10.30.0/24 | Finance |
+| 10.10.40.0/24 | Sales |
+| 10.10.50.0/24 | Servers |
+| 10.10.99.0/24 | Management |
+| 10.10.250.0/30 | EDGE ↔ CORE |
+| 203.0.113.0/30 | ISP Connection |
+
+
+### Related Documents
+
+| Document | Purpose |
+|:---------|:--------|
+| Business Requirements | Business objectives |
+| High-Level Design | Enterprise architecture |
+| Low-Level Design | Implementation details |
+| IP Addressing Plan | IP allocation |
+| VLAN Design | Layer 2 segmentation |
+| Device Configuration | Cisco IOS configurations |
+| Test Plan | Validation procedures |
+
+<p align="right">
+<a href="#contents">⬆️ Back to Contents</a>
+</p>
