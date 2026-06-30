@@ -86,8 +86,8 @@ The proposed network adopts a hierarchical enterprise campus architecture that s
 |:--:|---------------|--------------|------------------|-----------------------|
 | **LYR-001** | Internet Edge | Provides enterprise connectivity to the Internet and external WAN services. | BGP | Supports scalable external routing and ISP connectivity. |
 | **LYR-002** | Security Edge | Protects the enterprise perimeter by enforcing security policies and filtering traffic. | Firewall, NAT, ACL | All inbound and outbound traffic is inspected before entering the internal network. |
-| **LYR-003** | Core Layer | Serves as the high-speed backbone interconnecting major network segments. | OSPF, HSRP, Layer 3 Switching | Designed for maximum availability with redundant core routers. |
-| **LYR-004** | Distribution Layer | Aggregates access switches and performs routing, policy enforcement, and traffic control. | Inter-VLAN Routing, ACL | Centralizes routing decisions and security policy implementation. |
+| **LYR-003** | Core Layer | Serves as the Layer 3 backbone for inter-VLAN routing, gateway redundancy, and internal route exchange. | OSPF, HSRP, Layer 3 Routing | Designed for maximum availability with redundant core routers. |
+| **LYR-004** | Distribution Layer | Aggregates access switches and provides VLAN trunk aggregation between the Core and Access layers. | VLAN Trunking, STP, Port Security | Centralizes Layer 2 aggregation while Layer 3 routing and gateway redundancy are performed at the Core Layer. |
 | **LYR-005** | Access Layer | Connects end-user devices including PCs, printers, IP phones, and wireless access points. | VLAN, STP, Port Security | Provides secure endpoint connectivity while limiting broadcast domains. |
 | **LYR-006** | Server Farm | Hosts centralized enterprise services and internal business applications. | DHCP, DNS, Syslog, NTP, SNMP | Centralizes critical infrastructure services for easier administration. |
 | **LYR-007** | Management Network | Provides secure administrative access for monitoring and managing infrastructure devices. | SSH, SNMP, Syslog | Isolated management network prevents unauthorized administrative access. |
@@ -150,8 +150,7 @@ The enterprise network is segmented into multiple logical security zones to impr
 > **Design Notes**
 >
 > - Each department is assigned a dedicated VLAN to reduce broadcast traffic.
-> - Inter-VLAN communication is performed by Layer 3 devices using OSPF.
-> - Access between VLANs is controlled through Access Control Lists (ACLs).
+> - Inter-VLAN routing and default gateway redundancy are performed at the Core Layer using CORE-R1 and CORE-R2 with HSRP.> - Access between VLANs is controlled through Access Control Lists (ACLs).
 > - HSRP provides redundant default gateways for user VLANs.
 > - VLAN 99 is reserved for infrastructure management.
 > - VLAN 999 is configured as the unused native VLAN to improve switch security.
@@ -188,7 +187,7 @@ OSPF (Open Shortest Path First) is selected as the enterprise Interior Gateway P
 |----------------|---------------|------------------|
 | **Protocol** | OSPFv2 | Industry-standard link-state routing protocol for IPv4 enterprise networks. |
 | **OSPF Area** | Area 0 (Backbone) | Simplifies routing design and provides a scalable backbone architecture. |
-| **Scope** | Core Routers, Distribution Layer, Internal Layer 3 Links | Advertises all internal enterprise networks dynamically. |
+| **Scope** | Core Routers, Edge Router, Internal Layer 3 Links | Advertises all internal enterprise networks dynamically. |
 | **Route Advertisement** | All VLAN Subnets | Eliminates the need for manually configured static routes. |
 | **Default Route** | Redistributed from the Edge Router | Allows internal devices to reach external networks through a single exit point. |
 | **Convergence** | Fast | Automatically recalculates the optimal path after topology changes. |
