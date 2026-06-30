@@ -156,8 +156,8 @@ The design uses private IPv4 addressing based on the `10.10.0.0/16` address bloc
 |20|10.10.20.50|10.10.20.200|10.10.20.1 – 10.10.20.49|
 |30|10.10.30.50|10.10.30.200|10.10.30.1 – 10.10.30.49|
 |40|10.10.40.50|10.10.40.200|10.10.40.1 – 10.10.40.49|
-|50|Static|Static|Entire subnet reserved|
-|99|Static|Static|Entire subnet reserved|
+|50|Static Only|Static Only|Entire subnet reserved|
+|99|Static Only|Static Only|Entire subnet reserved|
 
 <p align="right">
 <a href="#contents">⬆️ Back to Contents</a>
@@ -222,11 +222,8 @@ The design uses private IPv4 addressing based on the `10.10.0.0/16` address bloc
 ## References
 
 - RFC 1918 - Address Allocation for Private Internets
-
 - RFC 5737 - IPv4 Address Blocks Reserved for Documentation
-
 - Cisco Enterprise Campus Design Guide
-
 - Cisco Validated Design (CVD)
 
 <p align="right">
