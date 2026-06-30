@@ -150,7 +150,8 @@ The enterprise network is segmented into multiple logical security zones to impr
 > **Design Notes**
 >
 > - Each department is assigned a dedicated VLAN to reduce broadcast traffic.
-> - Inter-VLAN routing and default gateway redundancy are performed at the Core Layer using CORE-R1 and CORE-R2 with HSRP.> - Access between VLANs is controlled through Access Control Lists (ACLs).
+> - Inter-VLAN routing and default gateway redundancy are performed at the Core Layer using CORE-R1 and CORE-R2 with HSRP.
+> - Access between VLANs is controlled through Access Control Lists (ACLs).
 > - HSRP provides redundant default gateways for user VLANs.
 > - VLAN 99 is reserved for infrastructure management.
 > - VLAN 999 is configured as the unused native VLAN to improve switch security.
