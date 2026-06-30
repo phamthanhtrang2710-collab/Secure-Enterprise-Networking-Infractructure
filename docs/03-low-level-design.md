@@ -77,7 +77,7 @@ All infrastructure devices follow a standardized naming convention to simplify i
 |:-------:|:------------|:---------------|:--------|:------------|
 | **EDGE** | Edge Router | `EDGE-R#` | `EDGE-R1` | Internet edge router providing BGP and NAT services. |
 | **CORE** | Core Router | `CORE-R#` | `CORE-R1` | Core routing device responsible for OSPF and HSRP. |
-| **DIST** | Distribution Switch | `DIST-SW#` | `DIST-SW1` | Layer 3 distribution switch for inter-VLAN routing. |
+| **DIST** | Distribution Switch | `DIST-SW#` | `DIST-SW1` | Distribution switch providing VLAN trunk aggregation and access-layer connectivity. |
 | **HR** | Access Switch | `HR-SW##` | `HR-SW01` | Access switch serving the Human Resources department. |
 | **IT** | Access Switch | `IT-SW##` | `IT-SW01` | Access switch serving the IT department. |
 | **FIN** | Access Switch | `FIN-SW##` | `FIN-SW01` | Access switch serving the Finance department. |
@@ -108,8 +108,8 @@ The following table defines the physical interconnections between all network de
 |:---------|:---------:|:---------|:---------:|:----------|:--------|
 | **EDGE-R1** | G0/1 | **CORE-R1** | G0/1 | Routed Link | Primary WAN connection |
 | **EDGE-R1** | G0/2 | **CORE-R2** | G0/1 | Routed Link | Secondary WAN connection |
-| **CORE-R1** | G0/0 | **DIST-SW1** | G1/0/1 | Layer 3 Link | Core to Distribution |
-| **CORE-R2** | G0/0 | **DIST-SW1** | G1/0/2 | Layer 3 Link | Core to Distribution |
+| **CORE-R1** | G0/0 | **DIST-SW1** | G1/0/1 | 802.1Q Trunk | Core-to-Distribution VLAN trunk |
+| **CORE-R2** | G0/0 | **DIST-SW1** | G1/0/2 | 802.1Q Trunk | Core-to-Distribution VLAN trunk |
 | **DIST-SW1** | G1/0/3 | **HR-SW01** | G0/1 | 802.1Q Trunk | HR VLANs |
 | **DIST-SW1** | G1/0/4 | **IT-SW01** | G0/1 | 802.1Q Trunk | IT VLANs |
 | **DIST-SW1** | G1/0/5 | **FIN-SW01** | G0/1 | 802.1Q Trunk | Finance VLANs |
@@ -142,12 +142,12 @@ This section defines the interface allocation for all network devices, including
 | **EDGE-R1** | G0/0 | ISP Router | `203.0.113.2/30` | N/A | Internet uplink |
 | **EDGE-R1** | G0/1 | CORE-R1 | `10.10.250.1/30` | N/A | Primary WAN link |
 | **EDGE-R1** | G0/2 | CORE-R2 | `10.10.250.5/30` | N/A | Secondary WAN link |
-| **CORE-R1** | G0/0 | DIST-SW1 | `10.10.251.1/30` | N/A | Layer 3 uplink |
+| **CORE-R1** | G0/0 | DIST-SW1 | N/A | Trunk | Core-to-Distribution VLAN trunk |
 | **CORE-R1** | G0/1 | EDGE-R1 | `10.10.250.2/30` | N/A | WAN connection |
-| **CORE-R2** | G0/0 | DIST-SW1 | `10.10.251.5/30` | N/A | Layer 3 uplink |
+| **CORE-R2** | G0/0 | DIST-SW1 | N/A | Trunk | Core-to-Distribution VLAN trunk |
 | **CORE-R2** | G0/1 | EDGE-R1 | `10.10.250.6/30` | N/A | WAN connection |
-| **DIST-SW1** | G1/0/1 | CORE-R1 | `10.10.251.2/30` | N/A | Routed uplink |
-| **DIST-SW1** | G1/0/2 | CORE-R2 | `10.10.251.6/30` | N/A | Routed uplink |
+| **DIST-SW1** | G1/0/1 | CORE-R1 | N/A | Trunk | Trunk uplink to CORE-R1 |
+| **DIST-SW1** | G1/0/2 | CORE-R2 | N/A | Trunk | Trunk uplink to CORE-R2 |
 | **DIST-SW1** | G1/0/3 | HR-SW01 | N/A | Trunk | HR VLANs |
 | **DIST-SW1** | G1/0/4 | IT-SW01 | N/A | Trunk | IT VLANs |
 | **DIST-SW1** | G1/0/5 | FIN-SW01 | N/A | Trunk | Finance VLANs |
