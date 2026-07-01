@@ -959,31 +959,6 @@ If an implementation step causes service disruption or fails validation, the aff
 | 10.10.250.4/30 | EDGE-R1 ↔ CORE-R2 |
 | 203.0.113.0/30 | EDGE-R1 ↔ ISP |
 
-
-### Related Documents
-
-| Document | Purpose |
-|:---------|:--------|
-| Business Requirements | Business objectives |
-| High-Level Design | Enterprise architecture |
-| Low-Level Design | Implementation details |
-| IP Addressing Plan | IP allocation |
-| VLAN Design | Layer 2 segmentation |
-| Device Configuration | Cisco IOS configurations |
-| Test Plan | Validation procedures |
-
-<p align="right">
-<a href="#contents">⬆️ Back to Contents</a>
-</p>
-
-## References
-
-- Cisco Enterprise Campus Design Guide
-- Cisco Validated Design (CVD)
-- RFC 1918 - Address Allocation for Private Internets
-- RFC 2328 - OSPF Version 2
-- RFC 4271 - Border Gateway Protocol 4
-
 <p align="right">
 <a href="#contents">⬆️ Back to Contents</a>
 </p>
