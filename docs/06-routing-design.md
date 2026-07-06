@@ -52,10 +52,10 @@ The enterprise routing architecture follows a hierarchical design that separates
 
 | Layer | Routing Function | Protocol |
 |:------|:-----------------|:---------|
-| **Access Layer** | End-user connectivity | Layer 2 Switching |
-| **Distribution Layer** | VLAN aggregation | Layer 2 Trunking |
+| **Access Layer** | End-user VLAN connectivity | Layer 2 Switching |
+| **Distribution Layer** | VLAN trunk aggregation only | Layer 2 Trunking |
 | **Core Layer** | Inter-VLAN routing and gateway redundancy | OSPF + HSRP |
-| **Edge Layer** | Internet connectivity | BGP + Static Default Route |
+| **Edge Layer** | Internet connectivity, NAT, and ISP routing | BGP + Static Default Route |
 | **ISP** | External routing | eBGP |
 
 ### Routing Principles
@@ -139,14 +139,26 @@ Open Shortest Path First (OSPF) is implemented as the enterprise Interior Gatewa
 
 ### OSPF Interface Plan
 
+### OSPF Interface Plan
+
 | Device | Interface | Network | Area | Passive |
-|:-------|:---------:|:--------|:----:|:-------:|
+|:-------|:----------|:--------|:----:|:-------:|
 | EDGE-R1 | G0/1 | 10.10.250.0/30 | 0 | No |
 | EDGE-R1 | G0/2 | 10.10.250.4/30 | 0 | No |
 | CORE-R1 | G0/1 | 10.10.250.0/30 | 0 | No |
 | CORE-R2 | G0/1 | 10.10.250.4/30 | 0 | No |
-| CORE-R1 | VLAN Interfaces | Enterprise VLANs | 0 | Yes |
-| CORE-R2 | VLAN Interfaces | Enterprise VLANs | 0 | Yes |
+| CORE-R1 | Vlan10 | 10.10.10.0/24 | 0 | Yes |
+| CORE-R1 | Vlan20 | 10.10.20.0/24 | 0 | Yes |
+| CORE-R1 | Vlan30 | 10.10.30.0/24 | 0 | Yes |
+| CORE-R1 | Vlan40 | 10.10.40.0/24 | 0 | Yes |
+| CORE-R1 | Vlan50 | 10.10.50.0/24 | 0 | Yes |
+| CORE-R1 | Vlan99 | 10.10.99.0/24 | 0 | Yes |
+| CORE-R2 | Vlan10 | 10.10.10.0/24 | 0 | Yes |
+| CORE-R2 | Vlan20 | 10.10.20.0/24 | 0 | Yes |
+| CORE-R2 | Vlan30 | 10.10.30.0/24 | 0 | Yes |
+| CORE-R2 | Vlan40 | 10.10.40.0/24 | 0 | Yes |
+| CORE-R2 | Vlan50 | 10.10.50.0/24 | 0 | Yes |
+| CORE-R2 | Vlan99 | 10.10.99.0/24 | 0 | Yes |
 
 
 ### OSPF Route Advertisement
@@ -196,7 +208,6 @@ Border Gateway Protocol (BGP) is implemented at the Internet Edge to simulate co
 
 Only the Edge Router participates in BGP. Internal routers remain isolated from external routing policies through OSPF.
 
-
 ### BGP Design Parameters
 
 | Parameter | Value |
@@ -206,8 +217,7 @@ Only the Edge Router participates in BGP. Internal routers remain isolated from 
 | **ISP AS** | 65000 |
 | **Peering Device** | ISP Router |
 | **Peering Interface** | G0/0 |
-| **Default Route** | Learned or Configured from ISP |
-
+| **Default Route** | Statically configured toward ISP |
 
 ### BGP Neighbor Table
 
@@ -237,12 +247,13 @@ Only the Edge Router participates in BGP. Internal routers remain isolated from 
 </p>
 
 ## Static Routing
+
 ### Static Route Table
 
-| Device | Destination | Next Hop | Purpose |
-|:-------|:------------|:---------|:--------|
-| EDGE-R1 | 0.0.0.0/0 | ISP Gateway | Internet access |
-| ISP Router | 10.10.0.0/16 | EDGE-R1 | Return traffic |
+| Device | Destination | Next Hop | Administrative Distance | Purpose |
+|:-------|:------------|:---------|:-----------------------:|:--------|
+| EDGE-R1 | 0.0.0.0/0 | ISP Gateway | 1 | Internet access |
+| ISP Router | 10.10.0.0/16 | EDGE-R1 | 1 | Return traffic to enterprise networks |
 
 
 ### Static Routing Principles
@@ -317,10 +328,10 @@ Only the Edge Router participates in BGP. Internal routers remain isolated from 
 
 | Failure Scenario | Expected Result |
 |:-----------------|:----------------|
-| CORE-R1 Failure | CORE-R2 becomes active gateway |
-| EDGE-R1 Link Failure | OSPF recalculates routes |
-| HSRP Active Failure | Standby router assumes gateway role |
-| ISP Failure | Internet connectivity unavailable (single ISP design) |
+| CORE-R1 Failure | CORE-R2 becomes the active default gateway through HSRP. |
+| EDGE-R1 Link Failure | OSPF reconverges automatically and forwards traffic through the remaining available path. |
+| HSRP Active Failure | The standby router assumes the active gateway role. |
+| ISP Failure | Internet connectivity becomes unavailable because the initial design uses a single ISP. |
 
 
 ### Recovery Principles
@@ -340,24 +351,26 @@ Only the Edge Router participates in BGP. Internal routers remain isolated from 
 
 ### Security Controls
 
-| Control | Purpose |
-|:---------|:--------|
-| Private IPv4 Addressing | Prevent public exposure |
-| Passive Interfaces | Reduce unnecessary OSPF advertisements |
-| SSH Management | Secure administration |
-| Management VLAN | Separate routing management traffic |
-| Route Filtering | Future enhancement |
-| OSPF Authentication | Future enhancement |
-
+| Control | Status | Purpose |
+|:--------|:-------|:--------|
+| Private IPv4 Addressing | Implemented | Prevents internal addressing from being publicly routable. |
+| Passive Interfaces | Implemented | Reduces unnecessary OSPF advertisements on user-facing VLAN interfaces. |
+| SSH Management | Implemented | Provides secure administrative access. |
+| Management VLAN | Implemented | Separates routing management traffic from user traffic. |
+| Route Filtering | Future Enhancement | Controls which routes are advertised or accepted. |
+| OSPF Authentication | Future Enhancement | Protects OSPF neighbor relationships. |
+| BGP MD5 Authentication | Future Enhancement | Protects BGP peering sessions. |
+| TTL Security | Not Implemented | Can help protect BGP sessions in advanced designs. |
 
 ### Security Summary
 
 | Category | Design Decision |
 |:---------|:----------------|
-| Internal Routing | Protected |
-| Edge Routing | Isolated |
+| Internal Routing | OSPF with passive interfaces |
+| Edge Routing | Isolated to EDGE-R1 |
 | Management | VLAN 99 |
-| Authentication | Future Enhancement |
+| OSPF Authentication | Future Enhancement |
+| BGP Authentication | Future Enhancement |
 
 <p align="right">
 <a href="#contents">⬆️ Back to Contents</a>
@@ -382,15 +395,22 @@ Only the Edge Router participates in BGP. Internal routers remain isolated from 
 
 
 > Verification Commands
+> - show ip interface brief
 > - show ip route
+> - show ip route ospf
+> - show ip route bgp
 > - show ip protocols
 > - show ip ospf neighbor
+> - show ip ospf interface
 > - show ip ospf interface brief
 > - show ip ospf database
 > - show ip bgp summary
 > - show ip bgp
+> - show standby
 > - show standby brief
+> - show standby vlan
 > - show ip cef
+> - show ip nat translations
 > - ping
 > - traceroute
 
@@ -408,9 +428,11 @@ Only the Edge Router participates in BGP. Internal routers remain isolated from 
 <a href="#contents">⬆️ Back to Contents</a>
 </p>
 
-# Summary
+## Summary
 
 This routing architecture provides a scalable and resilient Layer 3 infrastructure by combining OSPF for internal dynamic routing, HSRP for default gateway redundancy, and BGP for Internet edge connectivity.
+
+The design follows Cisco enterprise campus best practices by separating Layer 2 switching, Layer 3 routing, Internet edge services, and gateway redundancy into dedicated functional roles.
 
 The design separates internal and external routing domains, supports fast convergence after failures, simplifies route management, and provides a foundation for future enterprise expansion.
 
@@ -418,18 +440,20 @@ The design separates internal and external routing domains, supports fast conver
 <a href="#contents">⬆️ Back to Contents</a>
 </p>
 
-# Glossary
+## Glossary
 
 | Acronym | Definition |
 |:--------|:-----------|
 | AS | Autonomous System |
 | BGP | Border Gateway Protocol |
 | ECMP | Equal-Cost Multi-Path |
+| FIB | Forwarding Information Base |
 | HSRP | Hot Standby Router Protocol |
 | IGP | Interior Gateway Protocol |
 | OSPF | Open Shortest Path First |
 | PAT | Port Address Translation |
-| RIP | Routing Information Protocol |
+| RIB | Routing Information Base |
+| VIP | Virtual IP |
 
 <p align="right">
 <a href="#contents">⬆️ Back to Contents</a>
