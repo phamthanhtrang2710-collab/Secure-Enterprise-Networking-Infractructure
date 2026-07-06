@@ -258,29 +258,14 @@ Only the Edge Router participates in BGP. Internal routers remain isolated from 
 </p>
 
 
-# Default Route Design
+## Default Route Design
 
-## Traffic Flow
+### Traffic Flow
 
-```
-Enterprise Users
-        │
-        ▼
- CORE-R1 / CORE-R2
-        │
-        ▼
-      EDGE-R1
-        │
-        ▼
-    ISP Router
-        │
-        ▼
-    Internet
-```
+<img width="1717" height="916" alt="traffic flow" src="https://github.com/user-attachments/assets/431c889c-afe4-4248-a62f-4cc30046a142" />
 
----
 
-## Default Route Operation
+### Default Route Operation
 
 | Step | Description |
 |:-----|:------------|
@@ -289,9 +274,8 @@ Enterprise Users
 | EDGE-R1 performs NAT | Source translated |
 | Packet forwarded to ISP | Internet access established |
 
----
 
-## Design Summary
+### Design Summary
 
 | Category | Decision |
 |:---------|:---------|
@@ -303,17 +287,9 @@ Enterprise Users
 <a href="#contents">⬆️ Back to Contents</a>
 </p>
 
----
+## Routing Redundancy
 
-# Routing Redundancy
-
-## Redundancy Overview
-
-Routing resiliency is achieved through the combination of HSRP, OSPF, redundant core routers, and dual routed uplinks.
-
----
-
-## Redundancy Components
+### Redundancy Components
 
 | Component | Technology | Purpose |
 |:----------|:-----------|:--------|
@@ -322,9 +298,8 @@ Routing resiliency is achieved through the combination of HSRP, OSPF, redundant 
 | Core Layer | Dual Routers | Hardware redundancy |
 | Routed Links | Dual Links | WAN resiliency |
 
----
 
-## Design Summary
+### Design Summary
 
 | Category | Decision |
 |:---------|:---------|
@@ -336,11 +311,9 @@ Routing resiliency is achieved through the combination of HSRP, OSPF, redundant 
 <a href="#contents">⬆️ Back to Contents</a>
 </p>
 
----
+## Route Failover
 
-# Route Failover
-
-## Expected Failover Behavior
+### Expected Failover Behavior
 
 | Failure Scenario | Expected Result |
 |:-----------------|:----------------|
@@ -349,9 +322,8 @@ Routing resiliency is achieved through the combination of HSRP, OSPF, redundant 
 | HSRP Active Failure | Standby router assumes gateway role |
 | ISP Failure | Internet connectivity unavailable (single ISP design) |
 
----
 
-## Recovery Principles
+### Recovery Principles
 
 | Event | Action |
 |:------|:-------|
@@ -363,11 +335,10 @@ Routing resiliency is achieved through the combination of HSRP, OSPF, redundant 
 <a href="#contents">⬆️ Back to Contents</a>
 </p>
 
----
 
-# Routing Security
+## Routing Security
 
-## Security Controls
+### Security Controls
 
 | Control | Purpose |
 |:---------|:--------|
@@ -378,9 +349,8 @@ Routing resiliency is achieved through the combination of HSRP, OSPF, redundant 
 | Route Filtering | Future enhancement |
 | OSPF Authentication | Future enhancement |
 
----
 
-## Security Summary
+### Security Summary
 
 | Category | Design Decision |
 |:---------|:----------------|
@@ -393,11 +363,10 @@ Routing resiliency is achieved through the combination of HSRP, OSPF, redundant 
 <a href="#contents">⬆️ Back to Contents</a>
 </p>
 
----
 
-# Routing Verification
+## Routing Verification
 
-## Verification Checklist
+### Verification Checklist
 
 | ID | Verification Item | Expected Result |
 |:--:|:------------------|:----------------|
@@ -410,37 +379,22 @@ Routing resiliency is achieved through the combination of HSRP, OSPF, redundant 
 | RT-VER-007 | Failover Test | Successful |
 | RT-VER-008 | End-to-End Connectivity | Successful |
 
----
 
-## Recommended Verification Commands
 
-```text
-show ip route
+> Verification Commands
+> - show ip route
+> - show ip protocols
+> - show ip ospf neighbor
+> - show ip ospf interface brief
+> - show ip ospf database
+> - show ip bgp summary
+> - show ip bgp
+> - show standby brief
+> - show ip cef
+> - ping
+> - traceroute
 
-show ip protocols
-
-show ip ospf neighbor
-
-show ip ospf interface brief
-
-show ip ospf database
-
-show ip bgp summary
-
-show ip bgp
-
-show standby brief
-
-show ip cef
-
-ping
-
-traceroute
-```
-
----
-
-## Acceptance Criteria
+### Acceptance Criteria
 
 | Category | Requirement |
 |:---------|:------------|
@@ -454,9 +408,7 @@ traceroute
 <a href="#contents">⬆️ Back to Contents</a>
 </p>
 
----
-
-# Design Summary
+# Summary
 
 The routing architecture provides a scalable and resilient Layer 3 infrastructure by combining OSPF for internal dynamic routing, HSRP for default gateway redundancy, and BGP for Internet edge connectivity.
 
@@ -465,8 +417,6 @@ The design separates internal and external routing domains, supports fast conver
 <p align="right">
 <a href="#contents">⬆️ Back to Contents</a>
 </p>
-
----
 
 # Glossary
 
@@ -480,21 +430,6 @@ The design separates internal and external routing domains, supports fast conver
 | OSPF | Open Shortest Path First |
 | PAT | Port Address Translation |
 | RIP | Routing Information Protocol |
-
-<p align="right">
-<a href="#contents">⬆️ Back to Contents</a>
-</p>
-
----
-
-# References
-
-- Cisco Enterprise Campus Design Guide
-- Cisco Validated Design (CVD)
-- RFC 2328 – OSPF Version 2
-- RFC 4271 – Border Gateway Protocol 4
-- RFC 5798 – Virtual Router Redundancy Protocol
-- Cisco IOS IP Routing Configuration Guide
 
 <p align="right">
 <a href="#contents">⬆️ Back to Contents</a>
