@@ -410,7 +410,7 @@ Only the Edge Router participates in BGP. Internal routers remain isolated from 
 
 # Summary
 
-The routing architecture provides a scalable and resilient Layer 3 infrastructure by combining OSPF for internal dynamic routing, HSRP for default gateway redundancy, and BGP for Internet edge connectivity.
+This routing architecture provides a scalable and resilient Layer 3 infrastructure by combining OSPF for internal dynamic routing, HSRP for default gateway redundancy, and BGP for Internet edge connectivity.
 
 The design separates internal and external routing domains, supports fast convergence after failures, simplifies route management, and provides a foundation for future enterprise expansion.
 
