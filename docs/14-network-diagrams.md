@@ -122,11 +122,9 @@ The physical topology illustrates the physical interconnection between routers, 
 
 ## Security Architecture
 
-The security architecture demonstrates the layered defense model protecting enterprise resources through VLAN segmentation, ACLs, NAT, secure management, and perimeter controls.
-
 <p align="center">
+<img width="1536" height="1024" alt="security-architecture" src="https://github.com/user-attachments/assets/1a53fe06-5ac2-42d4-b57d-e5aa6901d1b5" />
 
-![Security Architecture](images/network/security-architecture.png)
 
 </p>
 
