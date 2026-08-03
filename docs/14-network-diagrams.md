@@ -100,7 +100,8 @@ The VLAN topology demonstrates logical segmentation between enterprise departmen
 
 <p align="center">
 
-![VLAN Topology](images/network/vlan-topology.png)
+<img width="1536" height="1024" alt="vlan-topology" src="https://github.com/user-attachments/assets/33976dc7-ad64-428c-ae54-c1c10d8ce610" />
+
 
 </p>
 
