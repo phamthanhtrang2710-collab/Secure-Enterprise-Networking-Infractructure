@@ -83,8 +83,6 @@ The physical topology illustrates the physical interconnection between routers, 
 
 ## IP Addressing Diagram
 
-This diagram illustrates the enterprise IPv4 addressing structure and subnet allocation across all infrastructure components.
-
 <p align="center">
 
 <img width="1536" height="1024" alt="ip-addressing-diagram" src="https://github.com/user-attachments/assets/965639e7-70b1-49bd-b45c-79cd9d7b23a3" />
