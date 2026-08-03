@@ -72,6 +72,7 @@ The physical topology illustrates the physical interconnection between routers, 
 
 <p align="center">
 
+<img width="1578" height="997" alt="physical-network-topology-adv" src="https://github.com/user-attachments/assets/a2fb0e68-ec9b-456f-8318-b349d2229a67" />
 
 
 </p>
