@@ -57,7 +57,7 @@ The logical topology illustrates the overall enterprise architecture, including 
 
 <p align="center">
 
-<img width="1536" height="1024" alt="logical-topolofy" src="https://github.com/user-attachments/assets/3137f950-547d-4559-a1b3-590b31a1a6b2" />
+<img width="1536" height="1024" alt="logical-topology" src="https://github.com/user-attachments/assets/13f7edb7-b4c1-4d35-9b62-c3cd9de66b11" />
 
 
 </p>
