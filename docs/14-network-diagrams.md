@@ -146,11 +146,10 @@ The physical topology illustrates the physical interconnection between routers, 
 
 ## Monitoring Architecture
 
-The monitoring architecture illustrates centralized infrastructure monitoring using SNMP, Syslog, and enterprise monitoring platforms.
-
 <p align="center">
 
-![Monitoring Architecture](images/network/monitoring-architecture.png)
+<img width="1536" height="1024" alt="monitoring-architecture" src="https://github.com/user-attachments/assets/06d5a56c-6a6e-458f-8d5d-e78011732c00" />
+
 
 </p>
 
@@ -160,11 +159,9 @@ The monitoring architecture illustrates centralized infrastructure monitoring us
 
 ## Traffic Flow
 
-This diagram illustrates the normal packet flow between enterprise users, internal services, and external Internet resources.
-
 <p align="center">
 
-![Traffic Flow](images/network/traffic-flow.png)
+<img width="1536" height="1024" alt="traffic-flow" src="https://github.com/user-attachments/assets/f161fd82-277a-45b8-8ef7-09fa0059515d" />
 
 </p>
 
@@ -174,11 +171,9 @@ This diagram illustrates the normal packet flow between enterprise users, intern
 
 ## High Availability
 
-The high availability diagram demonstrates gateway redundancy, routing resilience, and failover mechanisms implemented throughout the enterprise infrastructure.
-
 <p align="center">
 
-![High Availability](images/network/high-availability.png)
+<img width="1536" height="1024" alt="high-availability" src="https://github.com/user-attachments/assets/2c3f6f45-0330-4107-a4f9-d7b640034f02" />
 
 </p>
 
