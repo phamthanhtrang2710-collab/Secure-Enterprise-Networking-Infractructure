@@ -109,11 +109,10 @@ The physical topology illustrates the physical interconnection between routers, 
 
 ## Routing Topology
 
-The routing topology illustrates OSPF, BGP, HSRP, default routing, and Internet connectivity throughout the enterprise.
-
 <p align="center">
 
-![Routing Topology](images/network/routing-topology.png)
+<img width="1536" height="1024" alt="routing-topology" src="https://github.com/user-attachments/assets/1986dac5-545f-4d0b-a62d-a6363644b116" />
+
 
 </p>
 
