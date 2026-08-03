@@ -218,14 +218,3 @@ The design uses private IPv4 addressing based on the `10.10.0.0/16` address bloc
 <p align="right">
 <a href="#contents">⬆️ Back to Contents</a>
 </p>
-
-## References
-
-- RFC 1918 - Address Allocation for Private Internets
-- RFC 5737 - IPv4 Address Blocks Reserved for Documentation
-- Cisco Enterprise Campus Design Guide
-- Cisco Validated Design (CVD)
-
-<p align="right">
-<a href="#contents">⬆️ Back to Contents</a>
-</p>
