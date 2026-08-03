@@ -134,11 +134,9 @@ The physical topology illustrates the physical interconnection between routers, 
 
 ## Management Network
 
-The management network diagram illustrates the isolated Management VLAN used for secure administrative access, monitoring, centralized logging, and infrastructure management.
-
 <p align="center">
 
-![Management Network](images/network/management-network.png)
+<img width="1536" height="1024" alt="management-netwỏk" src="https://github.com/user-attachments/assets/4d71197d-7cb2-4509-94d7-57a5c8dcff60" />
 
 </p>
 
