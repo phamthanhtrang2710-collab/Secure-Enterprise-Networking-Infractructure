@@ -19,8 +19,6 @@
 <a href="#appendix-l-test-and-verification-index"><img src="https://img.shields.io/badge/TEST%20INDEX-2ECC71?style=for-the-badge"></a>
 <a href="#appendix-m-backup-and-recovery-summary"><img src="https://img.shields.io/badge/BACKUP-9B59B6?style=for-the-badge"></a>
 <a href="#appendix-n-document-register"><img src="https://img.shields.io/badge/DOCUMENT%20REGISTER-95A5A6?style=for-the-badge"></a>
-<a href="#appendix-o-acronyms-and-glossary"><img src="https://img.shields.io/badge/GLOSSARY-2C3E50?style=for-the-badge"></a>
-<a href="#appendix-p-references"><img src="https://img.shields.io/badge/REFERENCES-0B8FD3?style=for-the-badge"></a>
 
 </p>
 
