@@ -57,7 +57,8 @@ The logical topology illustrates the overall enterprise architecture, including 
 
 <p align="center">
 
-![Logical Network Topology](images/network/logical-topology.png)
+<img width="1536" height="1024" alt="logical-topolofy" src="https://github.com/user-attachments/assets/3137f950-547d-4559-a1b3-590b31a1a6b2" />
+
 
 </p>
 
@@ -71,7 +72,7 @@ The physical topology illustrates the physical interconnection between routers, 
 
 <p align="center">
 
-![Physical Network Topology](images/network/physical-topology.png)
+
 
 </p>
 
